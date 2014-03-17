@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:id="@+id/ScrollView" android:layout_width="fill_parent"  
+    android:layout_height="wrap_content" android:scrollbars="vertical">  
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:id="@+id/TextLayout"
+android:layout_gravity="center_horizontal"
+android:paddingBottom="50dp"
+
+>
+
+<TextView
+android:id="@+id/Name"
+android:layout_below="@+id/BasicInfo"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:textSize="40sp"
+android:gravity="center"
+android:text=""
+android:textColor="@color/white">
+</TextView>
+
+
+<TextView
+android:id="@+id/BasicInfo"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="10dp"
+android:layout_marginLeft="10dp"
+android:text="简要介绍："
+android:textSize="30sp"
+android:textColor="@color/white"
+></TextView>
+
+<TextView
+android:id="@+id/Info"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:layout_margin="40dp"
+android:textSize="20sp"
+android:textColor="@color/white"
+android:text=""></TextView>
+
+
+
+</LinearLayout>
+</ScrollView> 

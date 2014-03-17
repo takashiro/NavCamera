@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/relativeLayout" 
+android:background="@drawable/jump_bg"  
+	android:layout_width="1280px"
+	android:layout_height="753px" 
+	android:gravity="center_horizontal"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	
+        
+		<ImageButton android:id="@+id/ButtonImg" 
+		android:background="#00000000" 
+			android:src="@drawable/jump_image"
+			android:padding="0dip"
+			android:layout_marginLeft="962px"
+			android:layout_marginTop="462px"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:minWidth="300px"
+			android:minHeight="95px" >
+		</ImageButton>
+		
+		<ImageButton android:id="@+id/ButtonVdo" 
+		android:background="#00000000" 
+		android:src="@drawable/jump_video"
+		android:padding="0dip"
+			android:layout_marginLeft="962px"
+			android:layout_marginTop="522px"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:minWidth="300px"
+			android:minHeight="95px" >
+		</ImageButton>
+		
+</RelativeLayout>
+
