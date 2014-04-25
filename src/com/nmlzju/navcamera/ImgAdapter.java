@@ -59,7 +59,7 @@ public class ImgAdapter extends BaseAdapter {
 
 			EventHandler eh = new EventHandler();
 			eh.setOnDownloadCompleteListener(at);
-			DownloadManage picmanager = new DownloadManage(eh);
+			DownloadManager picmanager = new DownloadManager(eh);
 			String qimg = allis.get(lis.size());
 			String imgfn = qimg.substring(qimg.lastIndexOf("/") + 1,
 					qimg.length());

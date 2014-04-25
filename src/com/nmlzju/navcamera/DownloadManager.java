@@ -15,9 +15,9 @@ import android.os.Message;
 import android.util.Log;
 
 // 以一个实例，即异步下载，来演示 Android 的异步消息处理（用 Handler 的方式）   
-public class DownloadManage {
+public class DownloadManager {
 
-	public DownloadManage(EventHandler mHandler) {
+	public DownloadManager(EventHandler mHandler) {
 		this.mHandler = mHandler;
 	}
 

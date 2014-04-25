@@ -62,7 +62,7 @@ public class ImgActivity extends Activity implements
 		eh = new EventHandler();
 		eh.setOnDownloadCompleteListener(this);
 		eh.setOnDownloadUpdateListener(this);
-		DownloadManage picmanager = new DownloadManage(eh);
+		DownloadManager picmanager = new DownloadManager(eh);
 
 		imgpath = queryImage(id);
 
