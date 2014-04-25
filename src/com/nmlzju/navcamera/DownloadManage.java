@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,18 +14,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-// ÒÔÒ»¸öÊµÀı£¬¼´Òì²½ÏÂÔØ£¬À´ÑİÊ¾ Android µÄÒì²½ÏûÏ¢´¦Àí£¨ÓÃ Handler µÄ·½Ê½£©   
+// ï¿½ï¿½Ò»ï¿½ï¿½Êµï¿½ï¿½ï¿½ì²½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ Android ï¿½ï¿½ï¿½ì²½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½?ï¿½ï¿½ Handler ï¿½Ä·ï¿½Ê½ï¿½ï¿½   
 public class DownloadManage {
 
 	public DownloadManage(EventHandler mHandler) {
 		this.mHandler = mHandler;
 	}
 
-	// ÊµÀı»¯×Ô¶¨ÒåµÄ Handler
+	// Êµï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ Handler
 	EventHandler mHandler;
 	int id;
 
-	// °´Ö¸¶¨ url µØÖ·ÏÂÔØÎÄ¼şµ½Ö¸¶¨Â·¾¶
+	// ï¿½ï¿½Ö¸ï¿½ï¿½ url ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Â·ï¿½ï¿½
 	public void download(final String url, final String savePath) {
 		new Thread(new Runnable() {
 			public void run() {
@@ -54,7 +54,7 @@ public class DownloadManage {
 					while (readCount < fileSize && readNum != -1) {
 						readNum = inputStream.read(buffer);
 						byte[] temp = new byte[readNum];
-						System.arraycopy(buffer, 0, temp, 0, readNum);         //Êı×é¿½±´
+						System.arraycopy(buffer, 0, temp, 0, readNum);         //ï¿½ï¿½ï¿½é¿½ï¿½ï¿½
 						
 						if (readNum > -1) {
 							outputStream.write(temp);
@@ -62,7 +62,7 @@ public class DownloadManage {
 
 							int percent = (int) (readCount * 100 / fileSize);
 							if (percent > prevPercent) {
-								// ·¢ËÍÏÂÔØ½ø¶ÈĞÅÏ¢
+								// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ï¿½Ï¢
 								sendMessage(FILE_DOWNLOAD_UPDATE, percent, readCount
 										);
 
@@ -82,7 +82,7 @@ public class DownloadManage {
 		}).start();
 	}
 
-	// ¶ÁÈ¡Ö¸¶¨ url µØÖ·µÄÏìÓ¦ÄÚÈİ
+	// ï¿½ï¿½È¡Ö¸ï¿½ï¿½ url ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	public void download(final String url) {
 		new Thread(new Runnable() {
 			public void run() {
@@ -113,11 +113,11 @@ public class DownloadManage {
 		}).start();
 	}
 
-	// Ïò Handler ·¢ËÍÏûÏ¢
+	// ï¿½ï¿½ Handler ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	private void sendMessage(int what, Object obj) {
-		// ¹¹ÔìĞèÒªÏò Handler ·¢ËÍµÄÏûÏ¢
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ Handler ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½Ï¢
 		Message msg = mHandler.obtainMessage(what, obj);
-		// ·¢ËÍÏûÏ¢
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		mHandler.sendMessage(msg);
 	}
 

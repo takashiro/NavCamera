@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import android.content.Context;
 import android.util.AttributeSet;

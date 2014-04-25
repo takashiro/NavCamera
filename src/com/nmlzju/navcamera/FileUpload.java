@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -17,7 +17,7 @@ public class FileUpload {
 	//private static String newName = "fcsjt.jpg";
 	//private static String uploadFile = "/sdcard/fcsjt.jpg";
 
-	/* ÉÏ´«ÎÄ¼þÖÁServerµÄ·½·¨ */
+	/* ï¿½Ï´ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Serverï¿½Ä·ï¿½ï¿½ï¿½ */
 	public static String uploadFile(String uploadFile,String servelet,String id) {
 		String realUrl = new String();
 		if(servelet.equals("image"))realUrl = HttpUtil.BASE_URL + "/AddImage";
@@ -34,18 +34,18 @@ public class FileUpload {
 		try {
 			URL url = new URL(realUrl);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			/* ÔÊÐíInput¡¢Output£¬²»Ê¹ÓÃCache */
+			/* ï¿½ï¿½ï¿½ï¿½Inputï¿½ï¿½Outputï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½Cache */
 			con.setDoInput(true);
 			con.setDoOutput(true);
 			con.setUseCaches(false);
-			/* ÉèÖÃ´«ËÍµÄmethod=POST */
+			/* ï¿½ï¿½ï¿½Ã´ï¿½ï¿½Íµï¿½method=POST */
 			con.setRequestMethod("POST");
 			/* setRequestProperty */
 			con.setRequestProperty("Connection", "Keep-Alive");
 			con.setRequestProperty("Charset", "UTF-8");
 			con.setRequestProperty("Content-Type",
 					"multipart/form-data;boundary=" + boundary);
-			/* ÉèÖÃDataOutputStream */
+			/* ï¿½ï¿½ï¿½ï¿½DataOutputStream */
 			DataOutputStream ds = new DataOutputStream(con.getOutputStream());
 			
 			ds.writeBytes(twoHyphens + boundary + end);
@@ -58,16 +58,16 @@ public class FileUpload {
 					+ "name=\"file1\";filename=\"" + newName + "\"" + end);
 			ds.writeBytes(end);
 			
-			/* È¡µÃÎÄ¼þµÄFileInputStream */
+			/* È¡ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½FileInputStream */
 			FileInputStream fStream = new FileInputStream(uploadFile);
-			/* ÉèÖÃÃ¿´ÎÐ´Èë1024bytes */
+			/* ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½Ð´ï¿½ï¿½1024bytes */
 			int bufferSize = 1024;
 			byte[] buffer = new byte[bufferSize];
 
 			int length = -1;
-			/* ´ÓÎÄ¼þ¶ÁÈ¡Êý¾ÝÖÁ»º³åÇø */
+			/* ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 			while ((length = fStream.read(buffer)) != -1) {
-				/* ½«×ÊÁÏÐ´ÈëDataOutputStreamÖÐ */
+				/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½DataOutputStreamï¿½ï¿½ */
 				ds.write(buffer, 0, length);
 			}
 			ds.writeBytes(end);
@@ -78,7 +78,7 @@ public class FileUpload {
 			ds.flush();
 
 			Log.i("rrrr", "rrrr up succeed");
-			/* È¡µÃResponseÄÚÈÝ */
+			/* È¡ï¿½ï¿½Responseï¿½ï¿½ï¿½ï¿½ */
 			InputStream is = con.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is, "UTF-8"); 
 			int ch;
@@ -86,13 +86,13 @@ public class FileUpload {
 			while ((ch = isr.read()) != -1) {
 				b.append((char) ch);
 			}
-			/* ½«ResponseÏÔÊ¾ÓÚDialog */
-			//showDialog("ÉÏ´«³É¹¦" + b.toString().trim());
-			/* ¹Ø±ÕDataOutputStream */
+			/* ï¿½ï¿½Responseï¿½ï¿½Ê¾ï¿½ï¿½Dialog */
+			//showDialog("ï¿½Ï´ï¿½ï¿½É¹ï¿½" + b.toString().trim());
+			/* ï¿½Ø±ï¿½DataOutputStream */
 			path = b.toString();
 			ds.close();
 		} catch (Exception e) {
-			//showDialog("ÉÏ´«Ê§°Ü" + e);
+			//showDialog("ï¿½Ï´ï¿½Ê§ï¿½ï¿½" + e);
 			Log.i("fileup", "fileup" + e.toString());
 		}
 		

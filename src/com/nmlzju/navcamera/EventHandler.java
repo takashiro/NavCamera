@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 
-// ×Ô¶¨ÒåµÄ Handler
+// ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ Handler
 public class EventHandler extends Handler {
 
 	private static final int FILE_DOWNLOAD_CONNECT = 0;
@@ -20,7 +20,7 @@ public class EventHandler extends Handler {
 		// mManager = manager;
 	}
 
-	// ´¦Àí½ÓÊÕµ½µÄÏûÏ¢
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	@Override
 	public void handleMessage(Message msg) {
 
@@ -46,7 +46,7 @@ public class EventHandler extends Handler {
 		}
 	}
 
-	// ¶¨ÒåÁ¬½ÓÊÂ¼ş
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 	private OnDownloadConnectListener mOnDownloadConnectListener;
 
 	public interface OnDownloadConnectListener {
@@ -57,7 +57,7 @@ public class EventHandler extends Handler {
 		mOnDownloadConnectListener = listener;
 	}
 
-	// ¶¨ÒåÏÂÔØ½ø¶È¸üĞÂÊÂ¼ş
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø½ï¿½È¸ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 	private OnDownloadUpdateListener mOnDownloadUpdateListener;
 
 	public interface OnDownloadUpdateListener {
@@ -68,7 +68,7 @@ public class EventHandler extends Handler {
 		mOnDownloadUpdateListener = listener;
 	}
 
-	// ¶¨ÒåÏÂÔØÍê³ÉÊÂ¼ş
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
 	private OnDownloadCompleteListener mOnDownloadCompleteListener;
 
 	public interface OnDownloadCompleteListener {
@@ -80,7 +80,7 @@ public class EventHandler extends Handler {
 		mOnDownloadCompleteListener = listener;
 	}
 
-	// ¶¨ÒåÏÂÔØÒì³£ÊÂ¼ş
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½Â¼ï¿½
 	private OnDownloadErrorListener mOnDownloadErrorListener;
 
 	public interface OnDownloadErrorListener {

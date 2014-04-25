@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.io.File;
 
@@ -16,20 +16,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import com.nmlzju.navcamera.R;
  
 public class WaitActivity extends Activity {
  
     private String path;
-    // ±³¾°Í¼
+    // ï¿½ï¿½ï¿½ï¿½Í¼
     private Bitmap[] BackgroundImage = new Bitmap[4];
 
     
-	// ¶¨ÒåHandler¶ÔÏó
+	// ï¿½ï¿½ï¿½ï¿½Handlerï¿½ï¿½ï¿½ï¿½
 
 	private Handler handler = new Handler() {
 
 		@Override
-		// µ±ÓÐÏûÏ¢·¢ËÍ³öÀ´µÄÊ±ºò¾ÍÖ´ÐÐHandlerµÄÕâ¸ö·½·¨
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Í³ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ö´ï¿½ï¿½Handlerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void handleMessage(Message msg) {
 			//super.handleMessage(msg);
 			String tmpname = msg.obj.toString();
@@ -52,7 +53,7 @@ public class WaitActivity extends Activity {
        ActivityStackControlUtil.add(this);  
     }
  
-    // ×Ô¶¨ÒåµÄSurfaceView×ÓÀà
+    // ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½SurfaceViewï¿½ï¿½ï¿½ï¿½
     class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
  
 
@@ -89,7 +90,7 @@ public class WaitActivity extends Activity {
 //           BackgroundImage[11] = BitmapFactory.decodeResource(getResources(),
 //                   R.drawable.wait11);
  
-           Holder = this.getHolder();// »ñÈ¡holder
+           Holder = this.getHolder();// ï¿½ï¿½È¡holder
            Holder.addCallback(this);
        }
  
@@ -102,7 +103,7 @@ public class WaitActivity extends Activity {
  
        @Override
        public void surfaceCreated(SurfaceHolder holder) {
-           // Æô¶¯×Ô¶¨ÒåÏß³Ì
+           // ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ß³ï¿½
     	   new Thread(new BackThread()).start();
            my.start();
        }
@@ -113,52 +114,52 @@ public class WaitActivity extends Activity {
     	   //System.exit(0);
 
        }
-       // ×Ô¶¨ÒåÏß³ÌÀà
+       // ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½
        class MyThread implements Runnable {
            @Override
            public void run() {
-        	   //ÒÔÏÂ×¢ÊÍÎª»æÖÆ×ª¶¯Ð§¹û
+        	   //ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Ð§ï¿½ï¿½
 //              Canvas canvas = null;
-//              int rotate = 0;// Ðý×ª½Ç¶È±äÁ¿
+//              int rotate = 0;// ï¿½ï¿½×ªï¿½Ç¶È±ï¿½ï¿½ï¿½
 //              int i = 0;
 //              while (true) {
 //                  try {
-//                     canvas = Holder.lockCanvas();// »ñÈ¡»­²¼
+//                     canvas = Holder.lockCanvas();// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 //                     Paint mPaint = new Paint();
-//                     // »æÖÆ±³¾°
+//                     // ï¿½ï¿½ï¿½Æ±ï¿½ï¿½ï¿½
 //                     canvas.drawBitmap(BackgroundImage, null, new Rect(0, 0, 1280, 753), mPaint);
-//                     // ´´½¨¾ØÕóÒÔ¿ØÖÆÍ¼Æ¬Ðý×ªºÍÆ½ÒÆ
+//                     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½×ªï¿½ï¿½Æ½ï¿½ï¿½
 //                     Matrix m = new Matrix();
-//                     // ÉèÖÃÐý×ª½Ç¶ÈºÍÔ²ÐÄ
+//                     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½Ç¶Èºï¿½Ô²ï¿½ï¿½
 //                     m.postRotate((rotate += 48) % 360, 
 //                            QuestionImage.getWidth() / 2,
 //                            QuestionImage.getHeight() / 2);
-//                     // ÉèÖÃ×ó±ß¾àºÍÉÏ±ß¾à
+//                     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½ï¿½Ï±ß¾ï¿½
 //                     m.postTranslate(536, 255);
-//                     // »æÖÆÎÊºÅÍ¼
+//                     // ï¿½ï¿½ï¿½ï¿½ï¿½Êºï¿½Í¼
 //                     canvas.drawBitmap(QuestionImage, m, mPaint);
-//                     // ÐÝÃßÒÔ¿ØÖÆ×î´óÖ¡ÆµÎªÃ¿ÃëÔ¼30Ö¡
+//                     // ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ÆµÎªÃ¿ï¿½ï¿½Ô¼30Ö¡
 //                     Thread.sleep(33);
-//                     Holder.unlockCanvasAndPost(canvas);// ½âËø»­²¼£¬Ìá½»»­ºÃµÄÍ¼Ïñ
+//                     Holder.unlockCanvasAndPost(canvas);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½Ãµï¿½Í¼ï¿½ï¿½
 //                  } catch (Exception e) {
 //                  } finally {
-//                     //Holder.unlockCanvasAndPost(canvas);// ½âËø»­²¼£¬Ìá½»»­ºÃµÄÍ¼Ïñ
+//                     //Holder.unlockCanvasAndPost(canvas);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½Ãµï¿½Í¼ï¿½ï¿½
 //                  }
 //             }
         	   Canvas canvas = null;
         	   int i = 0;
         	   while (true) {
                  try {
-                    canvas = Holder.lockCanvas();// »ñÈ¡»­²¼
+                    canvas = Holder.lockCanvas();// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
                     Paint mPaint = new Paint();
-                    // »æÖÆ±³¾°
+                    // ï¿½ï¿½ï¿½Æ±ï¿½ï¿½ï¿½
                     	canvas.drawBitmap(BackgroundImage[(i++) % 4], null, new Rect(0, 0, 1280, 753), mPaint);
-                    // ÐÝÃßÒÔ¿ØÖÆ×î´óÖ¡ÆµÎªÃ¿ÃëÔ¼30Ö¡
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ÆµÎªÃ¿ï¿½ï¿½Ô¼30Ö¡
                     Thread.sleep(33);
-                    Holder.unlockCanvasAndPost(canvas);// ½âËø»­²¼£¬Ìá½»»­ºÃµÄÍ¼Ïñ
+                    Holder.unlockCanvasAndPost(canvas);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½Ãµï¿½Í¼ï¿½ï¿½
                  } catch (Exception e) {
                  } finally {
-                    //Holder.unlockCanvasAndPost(canvas);// ½âËø»­²¼£¬Ìá½»»­ºÃµÄÍ¼Ïñ
+                    //Holder.unlockCanvasAndPost(canvas);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½Ãµï¿½Í¼ï¿½ï¿½
                  }
             }
           } 
@@ -173,9 +174,9 @@ public class WaitActivity extends Activity {
 //			File fl = new File(path);
 //			if(fl.exists())
 //				fl.delete();
-	   		// ¹¹ÔìÐèÒªÏò Handler ·¢ËÍµÄÏûÏ¢
+	   		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ Handler ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½Ï¢
 	   		Message msg = handler.obtainMessage(QUERY_OK, tmpname);
-	   		// ·¢ËÍÏûÏ¢
+	   		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	   		handler.sendMessage(msg);
 	   		
 		}

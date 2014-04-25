@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,6 +25,7 @@ import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.VideoView;
+import com.nmlzju.navcamera.R;
 
 public class TextActivity extends Activity {
 
@@ -85,20 +86,20 @@ public class TextActivity extends Activity {
 	}
 
 	private String queryWord(String id) {
-		// ²éÑ¯²ÎÊý
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpWord?" + queryString;
-		// ²éÑ¯·µ»Ø½á¹û
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
 		return HttpUtil.queryStringForPost(url);
 	}
 
 	private List<String> queryImage(String id) {
-		// ²éÑ¯²ÎÊý
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpImage?" + queryString;
-		// ²éÑ¯·µ»Ø½á¹û
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
 		String[] rout = HttpUtil.queryStringForGet(url).split("&");
 		List<String> result = new ArrayList<String>();
 		for (int i = 0; i < rout.length; i++)
@@ -133,7 +134,7 @@ public class TextActivity extends Activity {
 					while (readCount < fileSize && readNum != -1) {
 						readNum = inputStream.read(buffer);
 						byte[] temp = new byte[readNum];
-						System.arraycopy(buffer, 0, temp, 0, readNum); // Êý×é¿½±´
+						System.arraycopy(buffer, 0, temp, 0, readNum); // ï¿½ï¿½ï¿½é¿½ï¿½ï¿½
 
 						if (readNum > -1) {
 							outputStream.write(temp);

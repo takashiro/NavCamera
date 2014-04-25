@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.io.File;
 import java.util.List;
@@ -16,17 +16,17 @@ import android.widget.ImageView;
 
 public class ImgAdapter extends BaseAdapter {
 
-	// ¶¨ÒåContext
+	// ï¿½ï¿½ï¿½ï¿½Context
 	private Context mContext;
 	private List<String> lis;
 	private List<String> allis;
 	private ImgActivity at;
 
-	// ¶¨ÒåÕûÐÍÊý×é ¼´Í¼Æ¬Ô´
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Í¼Æ¬Ô´
 	// private Integer[] mImageIds = { R.drawable.img1, R.drawable.img2,
 	// R.drawable.img3,R.drawable.img4,R.drawable.img5,R.drawable.img6 };
 
-	// ÉùÃ÷ImageAdapter
+	// ï¿½ï¿½ï¿½ï¿½ImageAdapter
 	public ImgAdapter(Context c, List<String> lis, List<String> allis,
 			ImgActivity at) {
 		mContext = c;
@@ -35,17 +35,17 @@ public class ImgAdapter extends BaseAdapter {
 		this.at = at;
 	}
 
-	// »ñÈ¡Í¼Æ¬µÄ¸öÊý
+	// ï¿½ï¿½È¡Í¼Æ¬ï¿½Ä¸ï¿½ï¿½ï¿½
 	public int getCount() {
 		return allis.size();
 	}
 
-	// »ñÈ¡Í¼Æ¬ÔÚ¿âÖÐµÄÎ»ÖÃ
+	// ï¿½ï¿½È¡Í¼Æ¬ï¿½Ú¿ï¿½ï¿½Ðµï¿½Î»ï¿½ï¿½
 	public Object getItem(int position) {
 		return position;
 	}
 
-	// »ñÈ¡Í¼Æ¬ID
+	// ï¿½ï¿½È¡Í¼Æ¬ID
 	public long getItemId(int position) {
 		return position;
 	}
@@ -71,13 +71,13 @@ public class ImgAdapter extends BaseAdapter {
 		Log.i("lis bmp" + position, "lis" + lis.toString());
 		if (new File(lis.get(position).toString()).exists()) {
 			Bitmap bm = BitmapFactory.decodeFile(lis.get(position).toString());
-			// ¸øImageViewÉèÖÃ×ÊÔ´
+			// ï¿½ï¿½ImageViewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
 			imageview.setImageBitmap(bm);
 		} else;
 			//imageview.setImageResource(R.drawable.wait);
-		// ÉèÖÃ²¼¾Ö Í¼Æ¬300*300
+		// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ Í¼Æ¬300*300
 		//imageview.setLayoutParams(new Gallery.LayoutParams(1280, 753));
-		// ÉèÖÃÏÔÊ¾±ÈÀýÀàÐÍ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		//imageview.setScaleType(ImageView.ScaleType.FIT_CENTER);
 		return imageview;
 

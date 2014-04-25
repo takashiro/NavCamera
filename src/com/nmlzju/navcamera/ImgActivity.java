@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.AdapterView.OnItemClickListener;
+import com.nmlzju.navcamera.R;
 
 public class ImgActivity extends Activity implements
 		EventHandler.OnDownloadCompleteListener,
@@ -50,7 +51,7 @@ public class ImgActivity extends Activity implements
 
 		Log.i("begin", "end begin text" + System.currentTimeMillis());
 
-		// »ñµÃGallery¶ÔÏó
+		// ï¿½ï¿½ï¿½Galleryï¿½ï¿½ï¿½ï¿½
 		g = (UGallery) findViewById(R.id.ImgGallery);
 		textButton = (Button)findViewById(R.id.text);
 
@@ -75,12 +76,12 @@ public class ImgActivity extends Activity implements
 			nowimgpath.add(imgdes);
 		}
 
-		// Ìí¼ÓImageAdapter¸øGallery¶ÔÏó ×¢ÒâÅ¶GalleryÀà²¢Ã»ÓÐsetAdapterÕâ¸ö·½·¨
-		// Õâ¸ö·½·¨ÊÇ´ÓAbsSpinnerÀà¼Ì³ÐµÄ
+		// ï¿½ï¿½ï¿½ImageAdapterï¿½ï¿½Galleryï¿½ï¿½ï¿½ï¿½ ×¢ï¿½ï¿½Å¶Galleryï¿½à²¢Ã»ï¿½ï¿½setAdapterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½AbsSpinnerï¿½ï¿½Ì³Ðµï¿½
 		g.setAdapter(new ImgAdapter(this, nowimgpath, imgpath, this));
 
 
-		// ÉèÖÃGalleryµÄÊÂ¼þ¼àÌý
+		// ï¿½ï¿½ï¿½ï¿½Galleryï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		g.setOnItemClickListener(new GalleryItemListener());
 		
 		textButton.setOnClickListener(new TextListener());
@@ -104,7 +105,7 @@ public class ImgActivity extends Activity implements
 	class GalleryItemListener implements OnItemClickListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			//µ÷ÓÃÏµÍ³¿´Í¼³ÌÐò²é¿´´óÍ¼
+			//ï¿½ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Í¼
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			Uri mUri = Uri.parse("file:" + nowimgpath.get(position));
 			intent.setDataAndType(mUri, "image/*");
@@ -134,29 +135,29 @@ public class ImgActivity extends Activity implements
 
 	public void onDownloadUpdate(int percent) {
 
-		// info.setText("ÏÂÔØ½ø¶È£º" + String.valueOf(percent) + "%");
+		// info.setText("ï¿½ï¿½ï¿½Ø½ï¿½È£ï¿½" + String.valueOf(percent) + "%");
 	}
 
 	public void onDownloadError(Exception e) {
 
-		// info.setText("ÏÂÔØ³ö´í");
+		// info.setText("ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½");
 	}
 
 	private String queryWord(String id) {
-		// ²éÑ¯²ÎÊý
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpWord?" + queryString;
-		// ²éÑ¯·µ»Ø½á¹û
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
 		return HttpUtil.queryStringForPost(url);
 	}
 
 	private List<String> queryImage(String id) {
-		// ²éÑ¯²ÎÊý
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpImage?" + queryString;
-		// ²éÑ¯·µ»Ø½á¹û
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
 		String[] rout = HttpUtil.queryStringForGet(url).split("&");
 		List<String> result = new ArrayList<String>();
 		for (int i = 0; i < rout.length; i++)

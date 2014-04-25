@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -50,11 +50,11 @@ public class MyCameraActivity extends Activity {
 	// private FrameLayout fl;
 
 	/**
-	 * Í¼Æ¬È¥É«,·µ»Ø»Ò¶ÈÍ¼Æ¬
+	 * Í¼Æ¬È¥É«,ï¿½ï¿½ï¿½Ø»Ò¶ï¿½Í¼Æ¬
 	 * 
 	 * @param bmpOriginal
-	 *            ´«ÈëµÄÍ¼Æ¬
-	 * @return È¥É«ºóµÄÍ¼Æ¬
+	 *            ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
+	 * @return È¥É«ï¿½ï¿½ï¿½Í¼Æ¬
 	 */
 	public static Bitmap toGrayscale(Bitmap bmpOriginal) {
 		int width, height;
@@ -79,9 +79,9 @@ public class MyCameraActivity extends Activity {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			// TODO Auto-generated method stub
 //			Log.i("ygy", "onPictureTaken");
-//			Toast.makeText(getApplicationContext(), "ÕýÔÚ±£´æÍ¼Æ¬",
+//			Toast.makeText(getApplicationContext(), "ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½Í¼Æ¬",
 //					Toast.LENGTH_LONG).show();
-//			 pd= ProgressDialog.show(MyCameraActivity.this, "²éÑ¯ÈÈµãÐÅÏ¢", "ÕýÔÚ²éÑ¯ÈÈµãÐÅÏ¢¡­¡­",true);
+//			 pd= ProgressDialog.show(MyCameraActivity.this, "ï¿½ï¿½Ñ¯ï¿½Èµï¿½ï¿½ï¿½Ï¢", "ï¿½ï¿½ï¿½Ú²ï¿½Ñ¯ï¿½Èµï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½",true);
 			mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 //			mBitmap = MyCameraActivity.toGrayscale(BitmapFactory
 //					.decodeByteArray(data, 0, data.length));
@@ -98,7 +98,7 @@ public class MyCameraActivity extends Activity {
 				os.flush();
 				os.close();
 				
-//				Toast.makeText(getApplicationContext(), "Í¼Ïñ±£´æ³É¹¦",
+//				Toast.makeText(getApplicationContext(), "Í¼ï¿½ñ±£´ï¿½É¹ï¿½",
 //						Toast.LENGTH_LONG).show();
 
 				//String tmpname = FileUpload.uploadFile(path, "upload", "0");
@@ -138,7 +138,7 @@ public class MyCameraActivity extends Activity {
 
 		tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
 		phoneid = tm.getDeviceId();
-		/*ÉèÖÃActivityÈ«ÆÁ£¬Ò²¿ÉÔÚAndroidManifest.xmlÉèÖÃandroid:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+		/*ï¿½ï¿½ï¿½ï¿½ActivityÈ«ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½AndroidManifest.xmlï¿½ï¿½ï¿½ï¿½android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -156,7 +156,7 @@ public class MyCameraActivity extends Activity {
 		/*
 		 * fl = new FrameLayout(this); fl.addView(cv);
 		 * 
-		 * TextView tv = new TextView(this); tv.setText("ÇëÅÄÉã"); fl.addView(tv);
+		 * TextView tv = new TextView(this); tv.setText("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"); fl.addView(tv);
 		 */
 		setContentView(cv);
 		ActivityStackControlUtil.add(this);  
@@ -189,12 +189,12 @@ public class MyCameraActivity extends Activity {
 	}
 	
 	
-	//È·¶¨ÊÇ·ñÍË³ö
+	//È·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ë³ï¿½
 	 private void showDialog(){
          AlertDialog alertDialog = new AlertDialog.Builder(MyCameraActivity.this)
-         .setTitle("ÍË³ö³ÌÐò")
-         .setMessage("ÊÇ·ñÍË³ö³ÌÐò")
-         .setPositiveButton("È·¶¨", 
+         .setTitle("ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½")
+         .setMessage("ï¿½Ç·ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½")
+         .setPositiveButton("È·ï¿½ï¿½", 
                          new DialogInterface.OnClickListener() {
                                      
                                      public void onClick(DialogInterface dialog, int which) {
@@ -205,7 +205,7 @@ public class MyCameraActivity extends Activity {
                                     	 ActivityStackControlUtil.finishProgram(); 
                                      }
                              })
-             .setNegativeButton("È¡Ïû", 
+             .setNegativeButton("È¡ï¿½ï¿½", 
                              new DialogInterface.OnClickListener() {
                                      
                                      public void onClick(DialogInterface dialog, int which) {
@@ -251,7 +251,7 @@ public class MyCameraActivity extends Activity {
 						int bestHeight = 600;
 						List<Camera.Size> sizeList = param
 								.getSupportedPreviewSizes();
-						// Èç¹ûsizeListÖ»ÓÐÒ»¸öÎÒÃÇÒ²Ã»ÓÐ±ØÒª×öÊ²Ã´ÁË£¬ÒòÎª¾ÍËûÒ»¸ö±ðÎÞÑ¡Ôñ
+						// ï¿½ï¿½ï¿½sizeListÖ»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²Ã»ï¿½Ð±ï¿½Òªï¿½ï¿½Ê²Ã´ï¿½Ë£ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
 						String ssize = String.valueOf(sizeList.size());
 						Log.i("surfaceCreated.............................................",
 								ssize);
@@ -274,7 +274,7 @@ public class MyCameraActivity extends Activity {
 							// if(bestWidth!=1024){
 							// param.setPreviewSize(bestWidth, bestHeight);
 							param.setPictureSize(bestWidth, bestHeight);
-							// ÕâÀï¸Ä±äÁËSIzeºó£¬ÎÒÃÇ»¹Òª¸æËßSurfaceView£¬·ñÔò£¬Surface½«²»»á¸Ä±ä´óÐ¡£¬½øÈëCameraµÄÍ¼Ïñ½«ÖÊÁ¿ºÜ²î
+							// ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½SIzeï¿½ï¿½ï¿½ï¿½ï¿½Ç»ï¿½Òªï¿½ï¿½ï¿½ï¿½SurfaceViewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Surfaceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cameraï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü²ï¿½
 							// cv.setLayoutParams(new
 							// LinearLayout.LayoutParams(bestWidth,
 							// bestHeight));
@@ -322,7 +322,7 @@ public class MyCameraActivity extends Activity {
 					String ssize = String.valueOf(sizeList.size());
 					Log.i("surfaceChanged.............................................",
 							ssize);
-					// Èç¹ûsizeListÖ»ÓÐÒ»¸öÎÒÃÇÒ²Ã»ÓÐ±ØÒª×öÊ²Ã´ÁË£¬ÒòÎª¾ÍËûÒ»¸ö±ðÎÞÑ¡Ôñ
+					// ï¿½ï¿½ï¿½sizeListÖ»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²Ã»ï¿½Ð±ï¿½Òªï¿½ï¿½Ê²Ã´ï¿½Ë£ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
 					if (sizeList.size() > 1) {
 						Iterator<Camera.Size> itor = sizeList.iterator();
 						while (itor.hasNext()) {
@@ -342,7 +342,7 @@ public class MyCameraActivity extends Activity {
 						// if(bestWidth!=1024){
 						// param.setPreviewSize(bestWidth, bestHeight);
 						param.setPictureSize(bestWidth, bestHeight);
-						// ÕâÀï¸Ä±äÁËSIzeºó£¬ÎÒÃÇ»¹Òª¸æËßSurfaceView£¬·ñÔò£¬Surface½«²»»á¸Ä±ä´óÐ¡£¬½øÈëCameraµÄÍ¼Ïñ½«ÖÊÁ¿ºÜ²î
+						// ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½SIzeï¿½ï¿½ï¿½ï¿½ï¿½Ç»ï¿½Òªï¿½ï¿½ï¿½ï¿½SurfaceViewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Surfaceï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cameraï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü²ï¿½
 						// fl.setLayoutParams(new LayoutParams(bestWidth,
 						// bestHeight));
 						// cv.setLayoutParams(new LayoutParams(bestWidth,

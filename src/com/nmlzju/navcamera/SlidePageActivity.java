@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,13 +7,14 @@ import android.util.Log;
 import android.view.View;
 import cn.w.song.widget.scroll.SlidePageView;
 import cn.w.song.widget.scroll.SlidePageView.OnPageViewChangedListener;
+import com.nmlzju.navcamera.R;
 
 /**
- * SlidePageViewÖ§³Ö¸÷ÏÔÊ¾µ¥ÔªµÄ×ÔĞĞ¶¨ÖÆ£¬²»½ö¿ÉÒÔÖ§³ÖµÈ¿íµÄÏÔÊ¾µ¥ÔªÉè¼Æ£¬Ò²Ö§³Ö²»¹æÔò¿í¶ÈµÄÏÔÊ¾µ¥ÔªÉè¼Æ¡£
- * SlidePageViewÖ§³ÖÒÆ¶¯»¬¶¯ºÍË¦ÊÖÁ½ÖÖ»¬¶¯·½Ê½¡£
- * ÁË½âÏêÇé¿´http://blog.csdn.net/swadair/article/details/7529159
- * ×¢ÒâÈ·±£±¾ÏîÄ¿µ¼ÈëÁËw.song.android.widget-1.0.3.jar×é¼ş°ü
- * w.song.android.widget-1.0.3.jarÏÂÔØµØÖ·http://download.csdn.net/detail/swadair/4271503
+ * SlidePageViewÖ§ï¿½Ö¸ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ÖµÈ¿ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ôªï¿½ï¿½Æ£ï¿½Ò²Ö§ï¿½Ö²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ôªï¿½ï¿½Æ¡ï¿½
+ * SlidePageViewÖ§ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¦ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½
+ * ï¿½Ë½ï¿½ï¿½ï¿½ï¿½é¿´http://blog.csdn.net/swadair/article/details/7529159
+ * ×¢ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½w.song.android.widget-1.0.3.jarï¿½ï¿½ï¿½ï¿½ï¿½
+ * w.song.android.widget-1.0.3.jarï¿½ï¿½ï¿½Øµï¿½Ö·http://download.csdn.net/detail/swadair/4271503
  * @author w.song
  * @version 1.0.1
  * @date 2012-5-2
@@ -24,11 +25,11 @@ public class SlidePageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.slidepage);//·ÂÎ¢ĞÅÒıµ¼Ò³
-//		setContentView(R.layout.slidepageviewdemo_ui_b);//×Ô¶¨ÒåµÈ¿íÏÔÊ¾µ¥Ôªdemo
-//		setContentView(R.layout.slidepageviewdemo_ui_c);//×Ô¶¨Òå²»¹æÔò¿í¶ÈÏÔÊ¾µ¥Ôªdemo
+		setContentView(R.layout.slidepage);//ï¿½ï¿½Î¢ï¿½ï¿½ï¿½ï¿½Ò³
+//		setContentView(R.layout.slidepageviewdemo_ui_b);//ï¿½Ô¶ï¿½ï¿½ï¿½È¿ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ôªdemo
+//		setContentView(R.layout.slidepageviewdemo_ui_c);//ï¿½Ô¶ï¿½ï¿½å²»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ôªdemo
 		SlidePageView spv = (SlidePageView) findViewById(R.id.slidepageviewtest_ui_SlidePageView_test);
-		//spv.setCurrPagePosition(0);//ÉèÖÃµ±Ç°Ò³Î»ÖÃ
+		//spv.setCurrPagePosition(0);//ï¿½ï¿½ï¿½Ãµï¿½Ç°Ò³Î»ï¿½ï¿½
 		spv.setOnPageViewChangedListener(new OnPageViewChangedListener() {
 
 			@Override

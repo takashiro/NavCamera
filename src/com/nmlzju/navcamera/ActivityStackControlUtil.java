@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,8 @@ import android.app.Activity;
 
 
 /**  
- * Description: activityÕ»¹ÜÀíÀà£¬Ã¿µ±ĞÂ²úÉúÒ»¸öactivityÊ±¾Í¼ÓÈë£¬finishµôÒ»¸öactivityÊ±¾Íremove£¬ÕâÑùµ½×îºóĞèÒª
- * ÍêÈ«ÍË³ö³ÌĞòÊ±¾ÍÖ»Òªµ÷ÓÃfinishProgram·½·¨¾Í¿ÉÒÔ½«³ÌĞòÍêÈ«½áÊø¡£
+ * Description: activityÕ»ï¿½ï¿½ï¿½ï¿½ï¿½à£¬Ã¿ï¿½ï¿½ï¿½Â²ï¿½ï¿½ï¿½Ò»ï¿½ï¿½activityÊ±ï¿½Í¼ï¿½ï¿½ë£¬finishï¿½ï¿½Ò»ï¿½ï¿½activityÊ±ï¿½ï¿½removeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òª
+ * ï¿½ï¿½È«ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö»Òªï¿½ï¿½ï¿½ï¿½finishProgramï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½
  */
 public class ActivityStackControlUtil {
 

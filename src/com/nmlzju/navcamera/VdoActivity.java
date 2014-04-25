@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.VideoView;
+import com.nmlzju.navcamera.R;
 
 public class VdoActivity extends Activity {
 	/** Called when the activity is first created. */
@@ -28,7 +29,7 @@ public class VdoActivity extends Activity {
 		String id = atext.substring(0, atext.indexOf("*"));
 
 		videoName = queryVideo(id).get(0);
-		rtspUrl = new StringBuilder().append("rtsp")
+		rtspUrl = new StringBuilder().append("http")
 				.append(HttpUtil.STREAM_URL).append(videoName);
 
 		playButton = (Button) this.findViewById(R.id.startplay);
@@ -70,11 +71,11 @@ public class VdoActivity extends Activity {
 	}
 
 	private List<String> queryVideo(String id) {
-		// ²éÑ¯²ÎÊý
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpVideo?" + queryString;
-		// ²éÑ¯·µ»Ø½á¹û
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
 		String[] rout = HttpUtil.queryStringForGet(url).split("&");
 		List<String> result = new ArrayList<String>();
 		for (int i = 0; i < rout.length; i++)

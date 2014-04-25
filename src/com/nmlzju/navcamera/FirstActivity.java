@@ -1,9 +1,10 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ygy.WaitActivity.MySurfaceView.MyThread;
+import com.nmlzju.navcamera.R;
+import com.nmlzju.navcamera.WaitActivity.MySurfaceView.MyThread;
 
 import android.app.Activity;
 import android.content.Intent;

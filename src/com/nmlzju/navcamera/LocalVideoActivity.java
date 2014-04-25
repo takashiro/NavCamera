@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.VideoView;
+import com.nmlzju.navcamera.R;
 
 public class LocalVideoActivity extends Activity {
 	/** Called when the activity is first created. */
@@ -39,9 +40,9 @@ public class LocalVideoActivity extends Activity {
 		videoView = (VideoView) this.findViewById(R.id.rtsp_player);
 		//Create media controller
         mMediaController = new MediaController(this);
-        mMediaController.setPadding(568, 0, 72, 50);//¿ØÖÆMediaControllerÎ»ÖÃ
+        mMediaController.setPadding(568, 0, 72, 50);//ï¿½ï¿½ï¿½ï¿½MediaControllerÎ»ï¿½ï¿½
         videoView.setMediaController(mMediaController);
-     // ÉèÖÃMediaControllerÓëVideView½¨Á¢¹ØÁª
+     // ï¿½ï¿½ï¿½ï¿½MediaControllerï¿½ï¿½VideViewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         mMediaController.setMediaPlayer(videoView);
 
@@ -101,11 +102,11 @@ public class LocalVideoActivity extends Activity {
 	}
 
 	private List<String> queryVideo(String id) {
-		// ²éÑ¯²ÎÊý
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpVideo?" + queryString;
-		// ²éÑ¯·µ»Ø½á¹û
+		// ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
 		String[] rout = HttpUtil.queryStringForGet(url).split("&");
 		List<String> result = new ArrayList<String>();
 		for (int i = 0; i < rout.length; i++)
@@ -115,9 +116,9 @@ public class LocalVideoActivity extends Activity {
 	
 	
 	/*
-	 * ¶ÔvideoViewµÄMediaControllerÀ´Ëµ£¬Ê¹ÓÃsetAnchorView²¢²»ÄÜ¿ØÖÆMediaControllerÎ»ÖÃ£¬
-	 * Ã¿´Îvideoview¼ÓÔØÓ°Æ¬Ê±MediaControllerµÄÎ»ÖÃ¶¼»áÉèÖÃ³ÉÄ¬ÈÏÎ»ÖÃ¡£¸ü¼òµ¥µÄ·½·¨ÊÇÊ¹ÓÃ
-	 * MediaControllerµÄsetPadding·½·¨À´ÉèÖÃÆäÎ»ÖÃ
+	 * ï¿½ï¿½videoViewï¿½ï¿½MediaControllerï¿½ï¿½Ëµï¿½ï¿½Ê¹ï¿½ï¿½setAnchorViewï¿½ï¿½ï¿½ï¿½ï¿½Ü¿ï¿½ï¿½ï¿½MediaControllerÎ»ï¿½Ã£ï¿½
+	 * Ã¿ï¿½ï¿½videoviewï¿½ï¿½ï¿½ï¿½Ó°Æ¬Ê±MediaControllerï¿½ï¿½Î»ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³ï¿½Ä¬ï¿½ï¿½Î»ï¿½Ã¡ï¿½ï¿½ï¿½òµ¥µÄ·ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½
+	 * MediaControllerï¿½ï¿½setPaddingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	 */
 	public class ConstantAnchorMediaController extends MediaController
 	{

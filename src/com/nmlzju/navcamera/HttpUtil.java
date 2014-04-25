@@ -1,4 +1,4 @@
-package com.ygy;
+package com.nmlzju.navcamera;
 
 import java.io.IOException;
 
@@ -10,107 +10,107 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 public class HttpUtil {
-	// »ù´¡URL
-	public static final String BASE_URL = "http://192.168.173.1:8082/MyCameraHost2011"; // ÓÃÕæ»ú²âÊÔÊ±5554¶Ë¿Ú²»ĞĞ
-	public static final String STREAM_URL = "://192.168.173.1/";
+	// ï¿½ï¿½URL
+	public static final String BASE_URL = "http://10.214.58.104:8080/MyCameraHost2011"; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±5554ï¿½Ë¿Ú²ï¿½ï¿½ï¿½
+	public static final String STREAM_URL = "://10.214.58.105/";
 
-	// »ñµÃGetÇëÇó¶ÔÏórequest
+	// ï¿½ï¿½ï¿½Getï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½request
 	public static HttpGet getHttpGet(String url) {
 		HttpGet request = new HttpGet(url);
 		return request;
 	}
 
-	// »ñµÃPostÇëÇó¶ÔÏórequest
+	// ï¿½ï¿½ï¿½Postï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½request
 	public static HttpPost getHttpPost(String url) {
 		HttpPost request = new HttpPost(url);
 		return request;
 	}
 
-	// ¸ù¾İÇëÇó»ñµÃÏìÓ¦¶ÔÏóresponse
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½response
 	public static HttpResponse getHttpResponse(HttpGet request)
 			throws ClientProtocolException, IOException {
 		HttpResponse response = new DefaultHttpClient().execute(request);
 		return response;
 	}
 
-	// ¸ù¾İÇëÇó»ñµÃÏìÓ¦¶ÔÏóresponse
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½response
 	public static HttpResponse getHttpResponse(HttpPost request)
 			throws ClientProtocolException, IOException {
 		HttpResponse response = new DefaultHttpClient().execute(request);
 		return response;
 	}
 
-	// ·¢ËÍPostÇëÇó£¬»ñµÃÏìÓ¦²éÑ¯½á¹û
+	// ï¿½ï¿½ï¿½ï¿½Postï¿½ï¿½ï¿½ó£¬»ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½
 	public static String queryStringForPost(String url) {
-		// ¸ù¾İurl»ñµÃHttpPost¶ÔÏó
+		// ï¿½ï¿½ï¿½urlï¿½ï¿½ï¿½HttpPostï¿½ï¿½ï¿½ï¿½
 		HttpPost request = HttpUtil.getHttpPost(url);
 		String result = null;
 		try {
-			// »ñµÃÏìÓ¦¶ÔÏó
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 			HttpResponse response = HttpUtil.getHttpResponse(request);
-			// ÅĞ¶ÏÊÇ·ñÇëÇó³É¹¦
+			// ï¿½Ğ¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½
 			if (response.getStatusLine().getStatusCode() == 200) {
-				// »ñµÃÏìÓ¦
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦
 				result = EntityUtils.toString(response.getEntity());
 				return result;
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
-			result = "ÍøÂçÒì³££¡";
+			result = "ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½";
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
-			result = "ÍøÂçÒì³££¡";
+			result = "ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½";
 			return result;
 		}
 		return null;
 	}
 
-	// »ñµÃÏìÓ¦²éÑ¯½á¹û
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½
 	public static String queryStringForPost(HttpPost request) {
 		String result = null;
 		try {
-			// »ñµÃÏìÓ¦¶ÔÏó
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 			HttpResponse response = HttpUtil.getHttpResponse(request);
-			// ÅĞ¶ÏÊÇ·ñÇëÇó³É¹¦
+			// ï¿½Ğ¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½
 			if (response.getStatusLine().getStatusCode() == 200) {
-				// »ñµÃÏìÓ¦
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦
 				result = EntityUtils.toString(response.getEntity());
 				return result;
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
-			result = "ÍøÂçÒì³££¡";
+			result = "ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½";
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
-			result = "ÍøÂçÒì³££¡";
+			result = "ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½";
 			return result;
 		}
 		return null;
 	}
 
-	// ·¢ËÍGetÇëÇó£¬»ñµÃÏìÓ¦²éÑ¯½á¹û
+	// ï¿½ï¿½ï¿½ï¿½Getï¿½ï¿½ï¿½ó£¬»ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½
 	public static String queryStringForGet(String url) {
-		// »ñµÃHttpGet¶ÔÏó
+		// ï¿½ï¿½ï¿½HttpGetï¿½ï¿½ï¿½ï¿½
 		HttpGet request = HttpUtil.getHttpGet(url);
 		String result = null;
 		try {
-			// »ñµÃÏìÓ¦¶ÔÏó
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 			HttpResponse response = HttpUtil.getHttpResponse(request);
-			// ÅĞ¶ÏÊÇ·ñÇëÇó³É¹¦
+			// ï¿½Ğ¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½
 			if (response.getStatusLine().getStatusCode() == 200) {
-				// »ñµÃÏìÓ¦
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦
 				result = EntityUtils.toString(response.getEntity());
 				return result;
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
-			result = "ÍøÂçÒì³££¡";
+			result = "ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½";
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
-			result = "ÍøÂçÒì³££¡";
+			result = "ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½";
 			return result;
 		}
 		return null;

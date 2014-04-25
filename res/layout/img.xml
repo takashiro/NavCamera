@@ -3,10 +3,10 @@
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:id="@+id/ImgLayout" android:layout_gravity="center_horizontal">
 
-	<com.ygy.UGallery android:id="@+id/ImgGallery" android:layout_width="fill_parent"
+	<com.nmlzju.navcamera.UGallery android:id="@+id/ImgGallery" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:spacing="2px">
 		<!-- android:spacing="2px"用来设置图片之间的间距 -->
-	</com.ygy.UGallery>
+	</com.nmlzju.navcamera.UGallery>
 	<Button
 	    android:layout_marginLeft="1180px" android:layout_marginTop="30px"
     android:layout_width="fill_parent" android:layout_height="wrap_content"
