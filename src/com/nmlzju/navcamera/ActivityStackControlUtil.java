@@ -7,8 +7,8 @@ import android.app.Activity;
 
 
 /**  
- * Description: activityջ�����࣬ÿ���²���һ��activityʱ�ͼ��룬finish��һ��activityʱ��remove�����������Ҫ
- * ��ȫ�˳�����ʱ��ֻҪ����finishProgram�����Ϳ��Խ�������ȫ����
+ * Description: activity栈管理类，每当新产生一个activity时就加入，finish掉一个activity时就remove，这样到最后需要
+ * 完全退出程序时就只要调用finishProgram方法就可以将程序完全结束。
  */
 public class ActivityStackControlUtil {
 

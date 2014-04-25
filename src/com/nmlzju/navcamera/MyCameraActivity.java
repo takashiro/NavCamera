@@ -50,11 +50,11 @@ public class MyCameraActivity extends Activity {
 	// private FrameLayout fl;
 
 	/**
-	 * ͼƬȥɫ,���ػҶ�ͼƬ
+	 * 图片去色,返回灰度图片
 	 * 
 	 * @param bmpOriginal
-	 *            �����ͼƬ
-	 * @return ȥɫ���ͼƬ
+	 *            传入的图片
+	 * @return 去色后的图片
 	 */
 	public static Bitmap toGrayscale(Bitmap bmpOriginal) {
 		int width, height;
@@ -79,9 +79,9 @@ public class MyCameraActivity extends Activity {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			// TODO Auto-generated method stub
 //			Log.i("ygy", "onPictureTaken");
-//			Toast.makeText(getApplicationContext(), "���ڱ���ͼƬ",
+//			Toast.makeText(getApplicationContext(), "正在保存图片",
 //					Toast.LENGTH_LONG).show();
-//			 pd= ProgressDialog.show(MyCameraActivity.this, "��ѯ�ȵ���Ϣ", "���ڲ�ѯ�ȵ���Ϣ����",true);
+//			 pd= ProgressDialog.show(MyCameraActivity.this, "查询热点信息", "正在查询热点信息……",true);
 			mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 //			mBitmap = MyCameraActivity.toGrayscale(BitmapFactory
 //					.decodeByteArray(data, 0, data.length));
@@ -98,7 +98,7 @@ public class MyCameraActivity extends Activity {
 				os.flush();
 				os.close();
 				
-//				Toast.makeText(getApplicationContext(), "ͼ�񱣴�ɹ�",
+//				Toast.makeText(getApplicationContext(), "图像保存成功",
 //						Toast.LENGTH_LONG).show();
 
 				//String tmpname = FileUpload.uploadFile(path, "upload", "0");
@@ -138,7 +138,7 @@ public class MyCameraActivity extends Activity {
 
 		tm = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
 		phoneid = tm.getDeviceId();
-		/*����Activityȫ����Ҳ����AndroidManifest.xml����android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+		/*设置Activity全屏，也可在AndroidManifest.xml设置android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -156,7 +156,7 @@ public class MyCameraActivity extends Activity {
 		/*
 		 * fl = new FrameLayout(this); fl.addView(cv);
 		 * 
-		 * TextView tv = new TextView(this); tv.setText("������"); fl.addView(tv);
+		 * TextView tv = new TextView(this); tv.setText("请拍摄"); fl.addView(tv);
 		 */
 		setContentView(cv);
 		ActivityStackControlUtil.add(this);  
@@ -189,12 +189,12 @@ public class MyCameraActivity extends Activity {
 	}
 	
 	
-	//ȷ���Ƿ��˳�
+	//确定是否退出
 	 private void showDialog(){
          AlertDialog alertDialog = new AlertDialog.Builder(MyCameraActivity.this)
-         .setTitle("�˳�����")
-         .setMessage("�Ƿ��˳�����")
-         .setPositiveButton("ȷ��", 
+         .setTitle("退出程序")
+         .setMessage("是否退出程序")
+         .setPositiveButton("确定", 
                          new DialogInterface.OnClickListener() {
                                      
                                      public void onClick(DialogInterface dialog, int which) {
@@ -205,7 +205,7 @@ public class MyCameraActivity extends Activity {
                                     	 ActivityStackControlUtil.finishProgram(); 
                                      }
                              })
-             .setNegativeButton("ȡ��", 
+             .setNegativeButton("取消", 
                              new DialogInterface.OnClickListener() {
                                      
                                      public void onClick(DialogInterface dialog, int which) {
@@ -251,7 +251,7 @@ public class MyCameraActivity extends Activity {
 						int bestHeight = 600;
 						List<Camera.Size> sizeList = param
 								.getSupportedPreviewSizes();
-						// ���sizeListֻ��һ������Ҳû�б�Ҫ��ʲô�ˣ���Ϊ����һ������ѡ��
+						// 如果sizeList只有一个我们也没有必要做什么了，因为就他一个别无选择
 						String ssize = String.valueOf(sizeList.size());
 						Log.i("surfaceCreated.............................................",
 								ssize);
@@ -274,7 +274,7 @@ public class MyCameraActivity extends Activity {
 							// if(bestWidth!=1024){
 							// param.setPreviewSize(bestWidth, bestHeight);
 							param.setPictureSize(bestWidth, bestHeight);
-							// ����ı���SIze�����ǻ�Ҫ����SurfaceView������Surface������ı��С������Camera��ͼ�������ܲ�
+							// 这里改变了SIze后，我们还要告诉SurfaceView，否则，Surface将不会改变大小，进入Camera的图像将质量很差
 							// cv.setLayoutParams(new
 							// LinearLayout.LayoutParams(bestWidth,
 							// bestHeight));
@@ -322,7 +322,7 @@ public class MyCameraActivity extends Activity {
 					String ssize = String.valueOf(sizeList.size());
 					Log.i("surfaceChanged.............................................",
 							ssize);
-					// ���sizeListֻ��һ������Ҳû�б�Ҫ��ʲô�ˣ���Ϊ����һ������ѡ��
+					// 如果sizeList只有一个我们也没有必要做什么了，因为就他一个别无选择
 					if (sizeList.size() > 1) {
 						Iterator<Camera.Size> itor = sizeList.iterator();
 						while (itor.hasNext()) {
@@ -342,7 +342,7 @@ public class MyCameraActivity extends Activity {
 						// if(bestWidth!=1024){
 						// param.setPreviewSize(bestWidth, bestHeight);
 						param.setPictureSize(bestWidth, bestHeight);
-						// ����ı���SIze�����ǻ�Ҫ����SurfaceView������Surface������ı��С������Camera��ͼ�������ܲ�
+						// 这里改变了SIze后，我们还要告诉SurfaceView，否则，Surface将不会改变大小，进入Camera的图像将质量很差
 						// fl.setLayoutParams(new LayoutParams(bestWidth,
 						// bestHeight));
 						// cv.setLayoutParams(new LayoutParams(bestWidth,

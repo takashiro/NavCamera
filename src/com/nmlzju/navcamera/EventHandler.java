@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 
-// �Զ���� Handler
+// 自定义的 Handler
 public class EventHandler extends Handler {
 
 	private static final int FILE_DOWNLOAD_CONNECT = 0;
@@ -20,7 +20,7 @@ public class EventHandler extends Handler {
 		// mManager = manager;
 	}
 
-	// ������յ�����Ϣ
+	// 处理接收到的消息
 	@Override
 	public void handleMessage(Message msg) {
 
@@ -46,7 +46,7 @@ public class EventHandler extends Handler {
 		}
 	}
 
-	// ���������¼�
+	// 定义连接事件
 	private OnDownloadConnectListener mOnDownloadConnectListener;
 
 	public interface OnDownloadConnectListener {
@@ -57,7 +57,7 @@ public class EventHandler extends Handler {
 		mOnDownloadConnectListener = listener;
 	}
 
-	// �������ؽ�ȸ����¼�
+	// 定义下载进度更新事件
 	private OnDownloadUpdateListener mOnDownloadUpdateListener;
 
 	public interface OnDownloadUpdateListener {
@@ -68,7 +68,7 @@ public class EventHandler extends Handler {
 		mOnDownloadUpdateListener = listener;
 	}
 
-	// ������������¼�
+	// 定义下载完成事件
 	private OnDownloadCompleteListener mOnDownloadCompleteListener;
 
 	public interface OnDownloadCompleteListener {
@@ -80,7 +80,7 @@ public class EventHandler extends Handler {
 		mOnDownloadCompleteListener = listener;
 	}
 
-	// ���������쳣�¼�
+	// 定义下载异常事件
 	private OnDownloadErrorListener mOnDownloadErrorListener;
 
 	public interface OnDownloadErrorListener {

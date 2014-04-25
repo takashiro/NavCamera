@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.VideoView;
-import com.nmlzju.navcamera.R;
 
 public class LocalVideoActivity extends Activity {
 	/** Called when the activity is first created. */
@@ -40,9 +39,9 @@ public class LocalVideoActivity extends Activity {
 		videoView = (VideoView) this.findViewById(R.id.rtsp_player);
 		//Create media controller
         mMediaController = new MediaController(this);
-        mMediaController.setPadding(568, 0, 72, 50);//����MediaControllerλ��
+        mMediaController.setPadding(568, 0, 72, 50);//控制MediaController位置
         videoView.setMediaController(mMediaController);
-     // ����MediaController��VideView��������
+     // 设置MediaController与VideView建立关联
 
         mMediaController.setMediaPlayer(videoView);
 
@@ -102,11 +101,11 @@ public class LocalVideoActivity extends Activity {
 	}
 
 	private List<String> queryVideo(String id) {
-		// ��ѯ����
+		// 查询参数
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpVideo?" + queryString;
-		// ��ѯ���ؽ��
+		// 查询返回结果
 		String[] rout = HttpUtil.queryStringForGet(url).split("&");
 		List<String> result = new ArrayList<String>();
 		for (int i = 0; i < rout.length; i++)
@@ -116,9 +115,9 @@ public class LocalVideoActivity extends Activity {
 	
 	
 	/*
-	 * ��videoView��MediaController��˵��ʹ��setAnchorView�����ܿ���MediaControllerλ�ã�
-	 * ÿ��videoview����ӰƬʱMediaController��λ�ö������ó�Ĭ��λ�á���򵥵ķ�����ʹ��
-	 * MediaController��setPadding������������λ��
+	 * 对videoView的MediaController来说，使用setAnchorView并不能控制MediaController位置，
+	 * 每次videoview加载影片时MediaController的位置都会设置成默认位置。更简单的方法是使用
+	 * MediaController的setPadding方法来设置其位置
 	 */
 	public class ConstantAnchorMediaController extends MediaController
 	{

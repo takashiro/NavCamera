@@ -14,18 +14,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-// ��һ��ʵ���첽���أ�����ʾ Android ���첽��Ϣ���?�� Handler �ķ�ʽ��   
+// 以一个实例，即异步下载，来演示 Android 的异步消息处理（用 Handler 的方式）   
 public class DownloadManage {
 
 	public DownloadManage(EventHandler mHandler) {
 		this.mHandler = mHandler;
 	}
 
-	// ʵ���Զ���� Handler
+	// 实例化自定义的 Handler
 	EventHandler mHandler;
 	int id;
 
-	// ��ָ�� url ��ַ�����ļ���ָ��·��
+	// 按指定 url 地址下载文件到指定路径
 	public void download(final String url, final String savePath) {
 		new Thread(new Runnable() {
 			public void run() {
@@ -54,7 +54,7 @@ public class DownloadManage {
 					while (readCount < fileSize && readNum != -1) {
 						readNum = inputStream.read(buffer);
 						byte[] temp = new byte[readNum];
-						System.arraycopy(buffer, 0, temp, 0, readNum);         //���鿽��
+						System.arraycopy(buffer, 0, temp, 0, readNum);         //数组拷贝
 						
 						if (readNum > -1) {
 							outputStream.write(temp);
@@ -62,7 +62,7 @@ public class DownloadManage {
 
 							int percent = (int) (readCount * 100 / fileSize);
 							if (percent > prevPercent) {
-								// �������ؽ����Ϣ
+								// 发送下载进度信息
 								sendMessage(FILE_DOWNLOAD_UPDATE, percent, readCount
 										);
 
@@ -82,7 +82,7 @@ public class DownloadManage {
 		}).start();
 	}
 
-	// ��ȡָ�� url ��ַ����Ӧ����
+	// 读取指定 url 地址的响应内容
 	public void download(final String url) {
 		new Thread(new Runnable() {
 			public void run() {
@@ -113,11 +113,11 @@ public class DownloadManage {
 		}).start();
 	}
 
-	// �� Handler ������Ϣ
+	// 向 Handler 发送消息
 	private void sendMessage(int what, Object obj) {
-		// ������Ҫ�� Handler ���͵���Ϣ
+		// 构造需要向 Handler 发送的消息
 		Message msg = mHandler.obtainMessage(what, obj);
-		// ������Ϣ
+		// 发送消息
 		mHandler.sendMessage(msg);
 	}
 

@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.AdapterView.OnItemClickListener;
-import com.nmlzju.navcamera.R;
 
 public class ImgActivity extends Activity implements
 		EventHandler.OnDownloadCompleteListener,
@@ -51,7 +50,7 @@ public class ImgActivity extends Activity implements
 
 		Log.i("begin", "end begin text" + System.currentTimeMillis());
 
-		// ���Gallery����
+		// 获得Gallery对象
 		g = (UGallery) findViewById(R.id.ImgGallery);
 		textButton = (Button)findViewById(R.id.text);
 
@@ -76,12 +75,12 @@ public class ImgActivity extends Activity implements
 			nowimgpath.add(imgdes);
 		}
 
-		// ���ImageAdapter��Gallery���� ע��ŶGallery�ಢû��setAdapter�������
-		// ��������Ǵ�AbsSpinner��̳е�
+		// 添加ImageAdapter给Gallery对象 注意哦Gallery类并没有setAdapter这个方法
+		// 这个方法是从AbsSpinner类继承的
 		g.setAdapter(new ImgAdapter(this, nowimgpath, imgpath, this));
 
 
-		// ����Gallery���¼�����
+		// 设置Gallery的事件监听
 		g.setOnItemClickListener(new GalleryItemListener());
 		
 		textButton.setOnClickListener(new TextListener());
@@ -105,7 +104,7 @@ public class ImgActivity extends Activity implements
 	class GalleryItemListener implements OnItemClickListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			//����ϵͳ��ͼ����鿴��ͼ
+			//调用系统看图程序查看大图
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			Uri mUri = Uri.parse("file:" + nowimgpath.get(position));
 			intent.setDataAndType(mUri, "image/*");
@@ -135,29 +134,29 @@ public class ImgActivity extends Activity implements
 
 	public void onDownloadUpdate(int percent) {
 
-		// info.setText("���ؽ�ȣ�" + String.valueOf(percent) + "%");
+		// info.setText("下载进度：" + String.valueOf(percent) + "%");
 	}
 
 	public void onDownloadError(Exception e) {
 
-		// info.setText("���س���");
+		// info.setText("下载出错");
 	}
 
 	private String queryWord(String id) {
-		// ��ѯ����
+		// 查询参数
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpWord?" + queryString;
-		// ��ѯ���ؽ��
+		// 查询返回结果
 		return HttpUtil.queryStringForPost(url);
 	}
 
 	private List<String> queryImage(String id) {
-		// ��ѯ����
+		// 查询参数
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpImage?" + queryString;
-		// ��ѯ���ؽ��
+		// 查询返回结果
 		String[] rout = HttpUtil.queryStringForGet(url).split("&");
 		List<String> result = new ArrayList<String>();
 		for (int i = 0; i < rout.length; i++)

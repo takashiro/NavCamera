@@ -71,16 +71,15 @@ public class VdoActivity extends Activity {
 	}
 
 	private List<String> queryVideo(String id) {
-		// ��ѯ����
+		// 查询参数
 		String queryString = "id=" + id;
 		// url
 		String url = HttpUtil.BASE_URL + "/OpVideo?" + queryString;
-		// ��ѯ���ؽ��
+		// 查询返回结果
 		String[] rout = HttpUtil.queryStringForGet(url).split("&");
 		List<String> result = new ArrayList<String>();
 		for (int i = 0; i < rout.length; i++)
 			result.add(rout[i]);
 		return result;
 	}
-
 }

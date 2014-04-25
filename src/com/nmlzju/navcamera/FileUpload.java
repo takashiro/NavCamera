@@ -17,7 +17,7 @@ public class FileUpload {
 	//private static String newName = "fcsjt.jpg";
 	//private static String uploadFile = "/sdcard/fcsjt.jpg";
 
-	/* �ϴ��ļ���Server�ķ��� */
+	/* 上传文件至Server的方法 */
 	public static String uploadFile(String uploadFile,String servelet,String id) {
 		String realUrl = new String();
 		if(servelet.equals("image"))realUrl = HttpUtil.BASE_URL + "/AddImage";
@@ -34,18 +34,18 @@ public class FileUpload {
 		try {
 			URL url = new URL(realUrl);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			/* ����Input��Output����ʹ��Cache */
+			/* 允许Input、Output，不使用Cache */
 			con.setDoInput(true);
 			con.setDoOutput(true);
 			con.setUseCaches(false);
-			/* ���ô��͵�method=POST */
+			/* 设置传送的method=POST */
 			con.setRequestMethod("POST");
 			/* setRequestProperty */
 			con.setRequestProperty("Connection", "Keep-Alive");
 			con.setRequestProperty("Charset", "UTF-8");
 			con.setRequestProperty("Content-Type",
 					"multipart/form-data;boundary=" + boundary);
-			/* ����DataOutputStream */
+			/* 设置DataOutputStream */
 			DataOutputStream ds = new DataOutputStream(con.getOutputStream());
 			
 			ds.writeBytes(twoHyphens + boundary + end);
@@ -58,16 +58,16 @@ public class FileUpload {
 					+ "name=\"file1\";filename=\"" + newName + "\"" + end);
 			ds.writeBytes(end);
 			
-			/* ȡ���ļ���FileInputStream */
+			/* 取得文件的FileInputStream */
 			FileInputStream fStream = new FileInputStream(uploadFile);
-			/* ����ÿ��д��1024bytes */
+			/* 设置每次写入1024bytes */
 			int bufferSize = 1024;
 			byte[] buffer = new byte[bufferSize];
 
 			int length = -1;
-			/* ���ļ���ȡ����������� */
+			/* 从文件读取数据至缓冲区 */
 			while ((length = fStream.read(buffer)) != -1) {
-				/* ������д��DataOutputStream�� */
+				/* 将资料写入DataOutputStream中 */
 				ds.write(buffer, 0, length);
 			}
 			ds.writeBytes(end);
@@ -78,7 +78,7 @@ public class FileUpload {
 			ds.flush();
 
 			Log.i("rrrr", "rrrr up succeed");
-			/* ȡ��Response���� */
+			/* 取得Response内容 */
 			InputStream is = con.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is, "UTF-8"); 
 			int ch;
@@ -86,13 +86,13 @@ public class FileUpload {
 			while ((ch = isr.read()) != -1) {
 				b.append((char) ch);
 			}
-			/* ��Response��ʾ��Dialog */
-			//showDialog("�ϴ��ɹ�" + b.toString().trim());
-			/* �ر�DataOutputStream */
+			/* 将Response显示于Dialog */
+			//showDialog("上传成功" + b.toString().trim());
+			/* 关闭DataOutputStream */
 			path = b.toString();
 			ds.close();
 		} catch (Exception e) {
-			//showDialog("�ϴ�ʧ��" + e);
+			//showDialog("上传失败" + e);
 			Log.i("fileup", "fileup" + e.toString());
 		}
 		

@@ -16,17 +16,17 @@ import android.widget.ImageView;
 
 public class ImgAdapter extends BaseAdapter {
 
-	// ����Context
+	// 定义Context
 	private Context mContext;
 	private List<String> lis;
 	private List<String> allis;
 	private ImgActivity at;
 
-	// ������������ ��ͼƬԴ
+	// 定义整型数组 即图片源
 	// private Integer[] mImageIds = { R.drawable.img1, R.drawable.img2,
 	// R.drawable.img3,R.drawable.img4,R.drawable.img5,R.drawable.img6 };
 
-	// ����ImageAdapter
+	// 声明ImageAdapter
 	public ImgAdapter(Context c, List<String> lis, List<String> allis,
 			ImgActivity at) {
 		mContext = c;
@@ -35,17 +35,17 @@ public class ImgAdapter extends BaseAdapter {
 		this.at = at;
 	}
 
-	// ��ȡͼƬ�ĸ���
+	// 获取图片的个数
 	public int getCount() {
 		return allis.size();
 	}
 
-	// ��ȡͼƬ�ڿ��е�λ��
+	// 获取图片在库中的位置
 	public Object getItem(int position) {
 		return position;
 	}
 
-	// ��ȡͼƬID
+	// 获取图片ID
 	public long getItemId(int position) {
 		return position;
 	}
@@ -71,13 +71,13 @@ public class ImgAdapter extends BaseAdapter {
 		Log.i("lis bmp" + position, "lis" + lis.toString());
 		if (new File(lis.get(position).toString()).exists()) {
 			Bitmap bm = BitmapFactory.decodeFile(lis.get(position).toString());
-			// ��ImageView������Դ
+			// 给ImageView设置资源
 			imageview.setImageBitmap(bm);
 		} else;
 			//imageview.setImageResource(R.drawable.wait);
-		// ���ò��� ͼƬ300*300
+		// 设置布局 图片300*300
 		//imageview.setLayoutParams(new Gallery.LayoutParams(1280, 753));
-		// ������ʾ��������
+		// 设置显示比例类型
 		//imageview.setScaleType(ImageView.ScaleType.FIT_CENTER);
 		return imageview;
 

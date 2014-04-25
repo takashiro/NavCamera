@@ -16,21 +16,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import com.nmlzju.navcamera.R;
  
 public class WaitActivity extends Activity {
  
     private String path;
-    // ����ͼ
+    // 背景图
     private Bitmap[] BackgroundImage = new Bitmap[4];
 
     
-	// ����Handler����
+	// 定义Handler对象
 
 	private Handler handler = new Handler() {
 
 		@Override
-		// ������Ϣ���ͳ�����ʱ���ִ��Handler���������
+		// 当有消息发送出来的时候就执行Handler的这个方法
 		public void handleMessage(Message msg) {
 			//super.handleMessage(msg);
 			String tmpname = msg.obj.toString();
@@ -53,7 +52,7 @@ public class WaitActivity extends Activity {
        ActivityStackControlUtil.add(this);  
     }
  
-    // �Զ����SurfaceView����
+    // 自定义的SurfaceView子类
     class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
  
 
@@ -90,7 +89,7 @@ public class WaitActivity extends Activity {
 //           BackgroundImage[11] = BitmapFactory.decodeResource(getResources(),
 //                   R.drawable.wait11);
  
-           Holder = this.getHolder();// ��ȡholder
+           Holder = this.getHolder();// 获取holder
            Holder.addCallback(this);
        }
  
@@ -103,7 +102,7 @@ public class WaitActivity extends Activity {
  
        @Override
        public void surfaceCreated(SurfaceHolder holder) {
-           // �����Զ����߳�
+           // 启动自定义线程
     	   new Thread(new BackThread()).start();
            my.start();
        }
@@ -114,52 +113,52 @@ public class WaitActivity extends Activity {
     	   //System.exit(0);
 
        }
-       // �Զ����߳���
+       // 自定义线程类
        class MyThread implements Runnable {
            @Override
            public void run() {
-        	   //����ע��Ϊ����ת��Ч��
+        	   //以下注释为绘制转动效果
 //              Canvas canvas = null;
-//              int rotate = 0;// ��ת�Ƕȱ���
+//              int rotate = 0;// 旋转角度变量
 //              int i = 0;
 //              while (true) {
 //                  try {
-//                     canvas = Holder.lockCanvas();// ��ȡ����
+//                     canvas = Holder.lockCanvas();// 获取画布
 //                     Paint mPaint = new Paint();
-//                     // ���Ʊ���
+//                     // 绘制背景
 //                     canvas.drawBitmap(BackgroundImage, null, new Rect(0, 0, 1280, 753), mPaint);
-//                     // ���������Կ���ͼƬ��ת��ƽ��
+//                     // 创建矩阵以控制图片旋转和平移
 //                     Matrix m = new Matrix();
-//                     // ������ת�ǶȺ�Բ��
+//                     // 设置旋转角度和圆心
 //                     m.postRotate((rotate += 48) % 360, 
 //                            QuestionImage.getWidth() / 2,
 //                            QuestionImage.getHeight() / 2);
-//                     // ������߾���ϱ߾�
+//                     // 设置左边距和上边距
 //                     m.postTranslate(536, 255);
-//                     // �����ʺ�ͼ
+//                     // 绘制问号图
 //                     canvas.drawBitmap(QuestionImage, m, mPaint);
-//                     // �����Կ������֡ƵΪÿ��Լ30֡
+//                     // 休眠以控制最大帧频为每秒约30帧
 //                     Thread.sleep(33);
-//                     Holder.unlockCanvasAndPost(canvas);// �������ύ���õ�ͼ��
+//                     Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 //                  } catch (Exception e) {
 //                  } finally {
-//                     //Holder.unlockCanvasAndPost(canvas);// �������ύ���õ�ͼ��
+//                     //Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 //                  }
 //             }
         	   Canvas canvas = null;
         	   int i = 0;
         	   while (true) {
                  try {
-                    canvas = Holder.lockCanvas();// ��ȡ����
+                    canvas = Holder.lockCanvas();// 获取画布
                     Paint mPaint = new Paint();
-                    // ���Ʊ���
+                    // 绘制背景
                     	canvas.drawBitmap(BackgroundImage[(i++) % 4], null, new Rect(0, 0, 1280, 753), mPaint);
-                    // �����Կ������֡ƵΪÿ��Լ30֡
+                    // 休眠以控制最大帧频为每秒约30帧
                     Thread.sleep(33);
-                    Holder.unlockCanvasAndPost(canvas);// �������ύ���õ�ͼ��
+                    Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
                  } catch (Exception e) {
                  } finally {
-                    //Holder.unlockCanvasAndPost(canvas);// �������ύ���õ�ͼ��
+                    //Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
                  }
             }
           } 
@@ -174,9 +173,9 @@ public class WaitActivity extends Activity {
 //			File fl = new File(path);
 //			if(fl.exists())
 //				fl.delete();
-	   		// ������Ҫ�� Handler ���͵���Ϣ
+	   		// 构造需要向 Handler 发送的消息
 	   		Message msg = handler.obtainMessage(QUERY_OK, tmpname);
-	   		// ������Ϣ
+	   		// 发送消息
 	   		handler.sendMessage(msg);
 	   		
 		}
