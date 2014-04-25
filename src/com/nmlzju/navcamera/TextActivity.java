@@ -81,7 +81,7 @@ public class TextActivity extends Activity {
 		Log.i("text", "text end capture" + System.currentTimeMillis());
 		Log.i("text", "text end" + (System.currentTimeMillis() - begin));
 		
-		ActivityStackControlUtil.add(this);  
+		ActivityManager.add(this);  
 	}
 
 	private String queryWord(String id) {

@@ -52,7 +52,7 @@ public class LocalVideoActivity extends Activity {
 		videoView.requestFocus();
 		videoView.start();
         
-		ActivityStackControlUtil.add(this);  
+		ActivityManager.add(this);  
 	}
 
 	@Override

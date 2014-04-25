@@ -159,7 +159,7 @@ public class MyCameraActivity extends Activity {
 		 * TextView tv = new TextView(this); tv.setText("请拍摄"); fl.addView(tv);
 		 */
 		setContentView(cv);
-		ActivityStackControlUtil.add(this);  
+		ActivityManager.add(this);  
 	}
 
 	/*
@@ -202,7 +202,7 @@ public class MyCameraActivity extends Activity {
                                     	 //MyCameraActivity.this.finish();
                                     	 //System.exit(0);
                                     	 //android.os.Process.killProcess(android.os.Process.myPid());
-                                    	 ActivityStackControlUtil.finishProgram(); 
+                                    	 ActivityManager.finishProgram(); 
                                      }
                              })
              .setNegativeButton("取消", 

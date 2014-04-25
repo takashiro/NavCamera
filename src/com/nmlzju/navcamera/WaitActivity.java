@@ -49,7 +49,7 @@ public class WaitActivity extends Activity {
        super.onCreate(savedInstanceState);
        setContentView(new MySurfaceView(this));
        path = getIntent().getStringExtra("path");
-       ActivityStackControlUtil.add(this);  
+       ActivityManager.add(this);  
     }
  
     // 自定义的SurfaceView子类

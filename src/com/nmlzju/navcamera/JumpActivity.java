@@ -53,7 +53,7 @@ public class JumpActivity extends Activity {
 			}
 		});
 		
-		ActivityStackControlUtil.add(this);  
+		ActivityManager.add(this);  
 	}
 	
 	@Override

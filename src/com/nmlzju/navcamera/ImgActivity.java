@@ -86,7 +86,7 @@ public class ImgActivity extends Activity implements
 		textButton.setOnClickListener(new TextListener());
 
 		Log.i("end", "end image text" + System.currentTimeMillis());
-		ActivityStackControlUtil.add(this);  
+		ActivityManager.add(this);  
 	}
 
 	
