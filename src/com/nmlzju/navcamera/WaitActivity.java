@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,34 +19,17 @@ import android.widget.Toast;
 
 public class WaitActivity extends Activity {
 
-	private Bitmap snapshot = null;
+	// 照片
+	private Bitmap snapshot;
 
 	// 背景图
 	private Bitmap[] BackgroundImage = new Bitmap[4];
+	
+	// 动画效果线程
+	Thread animationThread;
 
 	// 定义Handler对象
-	private static class ResultHandler extends Handler{
-		private WeakReference<Activity> parent = null;
-		
-		public ResultHandler(Activity activity){
-			parent = new WeakReference<Activity>(activity);
-		}
-		
-		public void handleMessage(Message msg) {
-			Activity main = parent.get();
-			String hotspot_id = (String) msg.obj;
-			
-			if(hotspot_id != null){
-				Intent intent = new Intent(main, HotspotActivity.class);
-				intent.putExtra("hotspot_id", hotspot_id);
-				main.startActivity(intent);
-				main.finish();
-			}else{
-				Toast.makeText(main, "未检测到热点信息！", Toast.LENGTH_LONG).show();
-			}
-		}
-	}
-	private Handler handler = null;
+	private ResultHandler handler = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,14 +38,60 @@ public class WaitActivity extends Activity {
 		snapshot = CameraSnapshot.getBitmap();
 		handler = new ResultHandler(this);
 		ActivityManager.add(this);
+		
+		new Thread(new BackThread()).start();
+	}
+	
+	private boolean aboutToClose = false;
+	public void setAboutToClose(boolean value){
+		aboutToClose = value;
+	}
+	
+	private static class ResultHandler extends Handler{
+		private WeakReference<WaitActivity> parent = null;
+		
+		public ResultHandler(WaitActivity activity){
+			parent = new WeakReference<WaitActivity>(activity);
+		}
+		
+		public void handleMessage(Message msg) {
+			WaitActivity main = parent.get();
+			String hotspot_id = (String) msg.obj;
+			
+			if(hotspot_id != null){
+				Intent intent = new Intent(main, HotspotActivity.class);
+				intent.putExtra("hotspot_id", hotspot_id);
+				main.startActivity(intent);
+				main.setAboutToClose(true);
+			}else{
+				Toast.makeText(main, "未检测到热点信息！", Toast.LENGTH_LONG).show();
+			}
+		}
+	}
+	
+	class BackThread implements Runnable {
+		@Override
+		public void run() {
+			String hotspot = HotspotManager.findHotspot(snapshot);
+
+			// 构造需要向 Handler 发送的消息
+			Message msg = handler.obtainMessage(0, hotspot);
+			handler.sendMessage(msg);
+			
+			if(hotspot == null){
+				handler.postDelayed(new Runnable(){
+					public void run(){
+						setAboutToClose(true);
+					}
+				}, 3500);
+			}
+		}
 	}
 
 	// 自定义的SurfaceView子类
 	class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
 		SurfaceHolder Holder;
-
-		Thread my = new Thread(new MyThread());
 
 		public MySurfaceView(Context context) {
 			super(context);
@@ -84,6 +112,8 @@ public class WaitActivity extends Activity {
 			
 			Holder = this.getHolder();// 获取holder
 			Holder.addCallback(this);
+			
+			animationThread = new Thread(new AnimationThread());
 		}
 
 		@Override
@@ -94,9 +124,8 @@ public class WaitActivity extends Activity {
 
 		@Override
 		public void surfaceCreated(SurfaceHolder holder) {
-			// 启动自定义线程
-			new Thread(new BackThread()).start();
-			my.start();
+			// 启动动画线程
+			animationThread.start();
 		}
 
 		@Override
@@ -107,20 +136,17 @@ public class WaitActivity extends Activity {
 		}
 
 		// 自定义线程类
-		class MyThread implements Runnable {
+		class AnimationThread implements Runnable {
 			@Override
 			public void run() {
 				Canvas canvas = null;
 				byte i = 0;
-			
-				int mWidth = BackgroundImage[0].getWidth();
-				int mHeight = BackgroundImage[0].getHeight();
-				
-				while (true) {
+
+				while (!aboutToClose) {
 					canvas = Holder.lockCanvas();// 获取画布
 					Paint mPaint = new Paint();
 					// 绘制背景
-					canvas.drawBitmap(BackgroundImage[i], null, new Rect(0, 0, mWidth, mHeight), mPaint);
+					canvas.drawBitmap(BackgroundImage[i], 0, 0, mPaint);
 					i++;
 					if(i >= 4){
 						i = 0;
@@ -135,17 +161,8 @@ public class WaitActivity extends Activity {
 
 					Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 				}
-			}
-		}
-
-		class BackThread implements Runnable {
-			@Override
-			public void run() {
-				String hotspot = HotspotManager.findHotspot(snapshot);
-
-				// 构造需要向 Handler 发送的消息
-				Message msg = handler.obtainMessage(0, hotspot);
-				handler.sendMessage(msg);
+				
+				finish();
 			}
 		}
 	}
