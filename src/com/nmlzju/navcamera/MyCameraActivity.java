@@ -78,56 +78,12 @@ public class MyCameraActivity extends Activity {
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
 			// TODO Auto-generated method stub
-//			Log.i("ygy", "onPictureTaken");
-//			Toast.makeText(getApplicationContext(), "正在保存图片",
-//					Toast.LENGTH_LONG).show();
-//			 pd= ProgressDialog.show(MyCameraActivity.this, "查询热点信息", "正在查询热点信息……",true);
 			mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-//			mBitmap = MyCameraActivity.toGrayscale(BitmapFactory
-//					.decodeByteArray(data, 0, data.length));
-			String path = "/sdcard/DunHuang/Pictures/" + "phoneid" + ".jpg";
-			File file = new File(path);
-			try {
-				if(file.exists())
-					file.delete();
-				
-				file.createNewFile();
-				BufferedOutputStream os = new BufferedOutputStream(
-						new FileOutputStream(file));
-				mBitmap.compress(Bitmap.CompressFormat.JPEG, 50, os);
-				os.flush();
-				os.close();
-				
-//				Toast.makeText(getApplicationContext(), "图像保存成功",
-//						Toast.LENGTH_LONG).show();
+			//mBitmap = MyCameraActivity.toGrayscale(BitmapFactory.decodeByteArray(data, 0, data.length));
 
-				//String tmpname = FileUpload.uploadFile(path, "upload", "0");
-				
-				
-				
-				// Uri uri = Uri.fromFile(new File(path));
-				// Intent intent = new Intent();
-				// intent.setAction("android.intent.action.VIEW");
-				// intent.setDataAndType(uri, "image/jpeg");
-				// startActivity(intent);
-				
-				
-				
-//				pd.dismiss();
-//				Intent intent = new Intent(MyCameraActivity.this,
-//						MainUIActivity.class);
-//				intent.putExtra("name", tmpname);
-//				startActivity(intent);
-				Intent intent = new Intent(MyCameraActivity.this,
-						WaitActivity.class);
-				intent.putExtra("path", path);
-				startActivity(intent);
-				
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			CameraSnapshot.save(mBitmap);
+			Intent intent = new Intent(MyCameraActivity.this, WaitActivity.class);
+			startActivity(intent);
 		}
 
 	};
@@ -191,30 +147,30 @@ public class MyCameraActivity extends Activity {
 	
 	//确定是否退出
 	 private void showDialog(){
-         AlertDialog alertDialog = new AlertDialog.Builder(MyCameraActivity.this)
-         .setTitle("退出程序")
-         .setMessage("是否退出程序")
-         .setPositiveButton("确定", 
-                         new DialogInterface.OnClickListener() {
-                                     
-                                     public void onClick(DialogInterface dialog, int which) {
-                                             // TODO Auto-generated method stub
-                                    	 //MyCameraActivity.this.finish();
-                                    	 //System.exit(0);
-                                    	 //android.os.Process.killProcess(android.os.Process.myPid());
-                                    	 ActivityManager.finishProgram(); 
-                                     }
-                             })
-             .setNegativeButton("取消", 
-                             new DialogInterface.OnClickListener() {
-                                     
-                                     public void onClick(DialogInterface dialog, int which) {
-                                             // TODO Auto-generated method stub
-                                             return;
-                                     }
-                             }).create();
-         
-         alertDialog.show();
+		 AlertDialog alertDialog = new AlertDialog.Builder(MyCameraActivity.this)
+		 .setTitle("退出程序")
+		 .setMessage("是否退出程序")
+		 .setPositiveButton("确定", 
+						 new DialogInterface.OnClickListener() {
+									 
+									 public void onClick(DialogInterface dialog, int which) {
+											 // TODO Auto-generated method stub
+										 //MyCameraActivity.this.finish();
+										 //System.exit(0);
+										 //android.os.Process.killProcess(android.os.Process.myPid());
+										 ActivityManager.finishProgram(); 
+									 }
+							 })
+			 .setNegativeButton("取消", 
+							 new DialogInterface.OnClickListener() {
+									 
+									 public void onClick(DialogInterface dialog, int which) {
+											 // TODO Auto-generated method stub
+											 return;
+									 }
+							 }).create();
+		 
+		 alertDialog.show();
  }
 
 	class CameraView extends SurfaceView {

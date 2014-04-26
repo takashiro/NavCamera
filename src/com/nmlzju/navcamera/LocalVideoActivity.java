@@ -38,20 +38,20 @@ public class LocalVideoActivity extends Activity {
 
 		videoView = (VideoView) this.findViewById(R.id.rtsp_player);
 		//Create media controller
-        mMediaController = new MediaController(this);
-        mMediaController.setPadding(568, 0, 72, 50);//控制MediaController位置
-        videoView.setMediaController(mMediaController);
-     // 设置MediaController与VideView建立关联
+		mMediaController = new MediaController(this);
+		mMediaController.setPadding(568, 0, 72, 50);//控制MediaController位置
+		videoView.setMediaController(mMediaController);
+	 // 设置MediaController与VideView建立关联
 
-        mMediaController.setMediaPlayer(videoView);
+		mMediaController.setMediaPlayer(videoView);
 
 
-        //mMediaController.show(0);
+		//mMediaController.show(0);
 
-        videoView.setVideoPath(localUrl.toString());
+		videoView.setVideoPath(localUrl.toString());
 		videoView.requestFocus();
 		videoView.start();
-        
+		
 		ActivityManager.add(this);  
 	}
 
@@ -122,17 +122,17 @@ public class LocalVideoActivity extends Activity {
 	public class ConstantAnchorMediaController extends MediaController
 	{
 
-	    public ConstantAnchorMediaController(Context context, View anchor)
-	    {
-	        super(context);
-	        super.setAnchorView(anchor);
-	    }
+		public ConstantAnchorMediaController(Context context, View anchor)
+		{
+			super(context);
+			super.setAnchorView(anchor);
+		}
 
 		@Override
-	    public void setAnchorView(View view)
-	    {
-	        // Do nothing
-	    }
+		public void setAnchorView(View view)
+		{
+			// Do nothing
+		}
 	}
 
 }

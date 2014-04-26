@@ -1,57 +1,54 @@
 package com.nmlzju.navcamera;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.ref.WeakReference;
 
 import com.nmlzju.navcamera.R;
-import com.nmlzju.navcamera.WaitActivity.MySurfaceView.MyThread;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.VideoView;
+import android.os.Message;
 
 public class FirstActivity extends Activity {
 	/** Called when the activity is first created. */
 
-	 private Handler mHandler = new Handler() { 
-         
-         public void handleMessage(android.os.Message msg) { 
-     		Intent intent = new Intent(FirstActivity.this, SlidePageActivity.class);
-    		startActivity(intent);
-                 finish();
-               } 
-             
-         };
-	
+	private static class ActivityHandler extends Handler{
+		private WeakReference<Activity> parent = null;
+		
+		public ActivityHandler(Activity activity){
+			parent = new WeakReference<Activity>(activity);
+		}
+		
+		public void handleMessage(Message msg){
+			Activity activity = parent.get();
+			Intent intent = new Intent(activity, MyCameraActivity.class);
+			activity.startActivity(intent);
+			activity.finish();
+		}
+	}
+	private Handler activityHandler = null;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.first);
+		
+		activityHandler = new ActivityHandler(this);
 
-		new Thread(new Runnable()
-		{
+		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				try {
 					Thread.sleep(500);
-				        mHandler.sendEmptyMessage(0); 
+					activityHandler.sendEmptyMessage(0);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
-		}).start();
-		
 
+		}).start();
 	}
 
 }
