@@ -1,7 +1,6 @@
 package com.nmlzju.navcamera;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,20 +13,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class CameraActivity extends Activity {
-	private CameraView cameraView;
 	private SurfaceHolder holder = null;
 	private Camera camera = null;
 	private Bitmap bitmap = null;
-	private int screenWidth;
-	private int screenHeight;
-
+	
 	public Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
 
 		@Override
@@ -43,26 +37,11 @@ public class CameraActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		screenWidth = dm.widthPixels;
-		screenHeight = dm.heightPixels;
-		Log.i("ping", screenWidth + "");
-		Log.i("ping", screenHeight + "");
-
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
-		cameraView = new CameraView(this);
-
-		setContentView(cameraView);
+		setContentView(new CameraView(this));
 		ActivityManager.add(this);  
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
-	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_MENU) {
@@ -94,6 +73,7 @@ public class CameraActivity extends Activity {
 	}
 
 	class CameraView extends SurfaceView {
+		Camera.Size size = null;
 
 		public CameraView(Context context) {
 			super(context);
@@ -102,76 +82,48 @@ public class CameraActivity extends Activity {
 			holder.addCallback(new SurfaceHolder.Callback() {
 
 				@Override
-				public void surfaceDestroyed(SurfaceHolder holder) {
-					// TODO Auto-generated method stub
-					camera.stopPreview();
-					camera.release();
-					camera = null;
-				}
-
-				@Override
 				public void surfaceCreated(SurfaceHolder holder) {
-					// TODO Auto-generated method stub
 					camera = Camera.open();
-					try {
-						Camera.Parameters param = camera.getParameters();
-						int bestWidth = 1024;
-						int bestHeight = 600;
-						List<Camera.Size> sizeList = param.getSupportedPreviewSizes();
-						
-						// 如果sizeList只有一个我们也没有必要做什么了，因为就他一个别无选择
+					if(camera == null){
+						return;
+					}
+					
+					//选择最大照片分辨率
+					Camera.Parameters param = camera.getParameters();
+					size = param.getPictureSize();
+					List<Camera.Size> sizeList = param.getSupportedPreviewSizes();
 
-						if (sizeList.size() > 1) {
-							Iterator<Camera.Size> itor = sizeList.iterator();
-							while (itor.hasNext()) {
-								Camera.Size cur = itor.next();
-
-								if (cur.width < bestWidth || cur.height < bestHeight) {
-									bestWidth = cur.width;
-									bestHeight = cur.height;
-								}
+					if (sizeList.size() > 1) {
+						for(Camera.Size cur : sizeList){
+							if (cur.width > size.width || cur.height > size.height) {
+								size = cur;
 							}
-							
-							param.setPictureSize(bestWidth, bestHeight);
 						}
+						
+						param.setPictureSize(size.width, size.height);
 						camera.setParameters(param);
+					}
 
+					try {
 						camera.setPreviewDisplay(holder);
 					} catch (IOException e) {
 						camera.release();
 						camera = null;
 					}
-					// mCamera.startPreview();
 				}
 
 				@Override
 				public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-					Camera.Parameters param = camera.getParameters();
-					int bestWidth = 1024;
-					int bestHeight = 600;
-					List<Camera.Size> sizeList = param.getSupportedPreviewSizes();
-	
-					// 如果sizeList只有一个我们也没有必要做什么了，因为就他一个别无选择
-					if (sizeList.size() > 1) {
-						Iterator<Camera.Size> itor = sizeList.iterator();
-						while (itor.hasNext()) {
-							Camera.Size cur = itor.next();
-
-							if (cur.width < bestWidth || cur.height < bestHeight) {
-								bestWidth = cur.width;
-								bestHeight = cur.height;
-							}
-						}
-						
-						param.setPictureSize(bestWidth, bestHeight);
-					}
-					camera.setParameters(param);
-
 					camera.startPreview();
+				}
+				
+				@Override
+				public void surfaceDestroyed(SurfaceHolder holder) {
+					camera.stopPreview();
+					camera.release();
+					camera = null;
 				}
 			});
 		}
-
 	}
 }
