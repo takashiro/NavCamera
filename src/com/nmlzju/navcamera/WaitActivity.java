@@ -117,21 +117,23 @@ public class WaitActivity extends Activity {
 				int mHeight = BackgroundImage[0].getHeight();
 				
 				while (true) {
-					try {
-						canvas = Holder.lockCanvas();// 获取画布
-						Paint mPaint = new Paint();
-						// 绘制背景
-						canvas.drawBitmap(BackgroundImage[i], null, new Rect(0, 0, mWidth, mHeight), mPaint);
-						i++;
-						if(i >= 4){
-							i = 0;
-						}
-						// 休眠以控制最大帧频为每秒约30帧
-						
-						Thread.sleep(33);
-						Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
-					} catch (Exception e) {
+					canvas = Holder.lockCanvas();// 获取画布
+					Paint mPaint = new Paint();
+					// 绘制背景
+					canvas.drawBitmap(BackgroundImage[i], null, new Rect(0, 0, mWidth, mHeight), mPaint);
+					i++;
+					if(i >= 4){
+						i = 0;
 					}
+
+					// 休眠以控制最大帧频为每秒约30帧
+					try {
+						Thread.sleep(33);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+
+					Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 				}
 			}
 		}
