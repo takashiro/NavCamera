@@ -37,7 +37,7 @@ public class WaitActivity extends Activity {
 			String hotspot_id = (String) msg.obj;
 			
 			if(hotspot_id != null){
-				Intent intent = new Intent(main, JumpActivity.class);
+				Intent intent = new Intent(main, HotspotActivity.class);
 				intent.putExtra("hotspot_id", hotspot_id);
 				main.startActivity(intent);
 				main.finish();

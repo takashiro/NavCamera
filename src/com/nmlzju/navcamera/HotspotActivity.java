@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.nmlzju.navcamera.R;
 
-public class JumpActivity extends Activity {
+public class HotspotActivity extends Activity {
 
 	ImageButton galleryButton, videoButton;
 	String name;
@@ -37,7 +37,7 @@ public class JumpActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(JumpActivity.this, ImgActivity.class);
+				Intent intent = new Intent(HotspotActivity.this, GalleryActivity.class);
 				intent.putExtra("hotspot_id", name);
 				startActivity(intent);
 			}
@@ -59,7 +59,7 @@ public class JumpActivity extends Activity {
 					}
 				}
 				
-				Toast.makeText(JumpActivity.this, "没有相关视频！", Toast.LENGTH_LONG).show();
+				Toast.makeText(HotspotActivity.this, "没有相关视频！", Toast.LENGTH_LONG).show();
 			}
 		});
 		
@@ -72,7 +72,7 @@ public class JumpActivity extends Activity {
 
 		Log.i("ygy", "onKeyDown");
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Intent it = new Intent(JumpActivity.this, CameraActivity.class);
+			Intent it = new Intent(HotspotActivity.this, CameraActivity.class);
 			startActivity(it);
 			finish();
 		}

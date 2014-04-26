@@ -18,7 +18,7 @@ import cn.w.song.widget.scroll.SlidePageView.OnPageViewChangedListener;
  * @version 1.0.1
  * @date 2012-5-2
  */
-public class SlidePageActivity extends Activity {
+public class GuideActivity extends Activity {
 	private String tag = "SlidePageViewDemoActivity";
 	private int maxTime = 0;
 	@Override
@@ -37,7 +37,7 @@ public class SlidePageActivity extends Activity {
 				Log.v(tag, "currPagePosition=" + currPagePosition);
 				if(maxTime == 1)
 				{
-					Intent it = new Intent(SlidePageActivity.this, CameraActivity.class);
+					Intent it = new Intent(GuideActivity.this, CameraActivity.class);
 					startActivity(it);
 					finish();
 				}

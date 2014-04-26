@@ -18,10 +18,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class ImgActivity extends Activity implements
-		EventHandler.OnDownloadCompleteListener,
-		EventHandler.OnDownloadUpdateListener,
-		EventHandler.OnDownloadErrorListener {
+public class GalleryActivity extends Activity{
 
 	TextView title;
 	Bitmap bmImg;
@@ -29,7 +26,6 @@ public class ImgActivity extends Activity implements
 
 	List<String> imgpath, audpath;
 	List<String> nowimgpath;
-	EventHandler eh;
 	long start, end;
 	String imgdes, auddes;
 	SystemClock sc;
@@ -51,10 +47,6 @@ public class ImgActivity extends Activity implements
 
 		hotspot_id = intent.getStringExtra("hotspot_id");
 
-		eh = new EventHandler();
-		eh.setOnDownloadCompleteListener(this);
-		eh.setOnDownloadUpdateListener(this);
-
 		nowimgpath = new ArrayList<String>();
 		
 		String galleryPath = HotspotManager.getHotspotGalleryPath(hotspot_id);
@@ -68,7 +60,7 @@ public class ImgActivity extends Activity implements
 
 		// 添加ImageAdapter给Gallery对象 注意哦Gallery类并没有setAdapter这个方法
 		// 这个方法是从AbsSpinner类继承的
-		g.setAdapter(new ImgAdapter(this, nowimgpath));
+		g.setAdapter(new GalleryAdapter(this, nowimgpath));
 
 
 		// 设置Gallery的事件监听
@@ -95,28 +87,9 @@ public class ImgActivity extends Activity implements
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			Intent intent = new Intent(ImgActivity.this, TextActivity.class);
+			Intent intent = new Intent(GalleryActivity.this, TextActivity.class);
 			intent.putExtra("hotspot_id", hotspot_id);
 			startActivity(intent);
-		}
-		
-	}
-
-	public void onDownloadComplete(Object result) {
-
-		String requesturl = result.toString();
-		if (requesturl.endsWith("jpg") || requesturl.endsWith("bmp")
-				|| requesturl.endsWith("png"))
-			;
-	}
-
-	public void onDownloadUpdate(int percent) {
-
-		// info.setText("下载进度：" + String.valueOf(percent) + "%");
-	}
-
-	public void onDownloadError(Exception e) {
-
-		// info.setText("下载出错");
+		}	
 	}
 }

@@ -11,18 +11,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-public class ImgAdapter extends BaseAdapter {
+public class GalleryAdapter extends BaseAdapter {
 
 	// 定义Context
 	private Context mContext;
 	private List<String> lis;
 
-	// 定义整型数组 即图片源
-	// private Integer[] mImageIds = { R.drawable.img1, R.drawable.img2,
-	// R.drawable.img3,R.drawable.img4,R.drawable.img5,R.drawable.img6 };
-
 	// 声明ImageAdapter
-	public ImgAdapter(Context c, List<String> lis) {
+	public GalleryAdapter(Context c, List<String> lis) {
 		mContext = c;
 		this.lis = lis;
 	}
