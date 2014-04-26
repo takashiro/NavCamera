@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
@@ -71,6 +72,16 @@ public class WaitActivity extends Activity {
 			BackgroundImage[2] = BitmapFactory.decodeResource(getResources(), R.drawable.wait2);
 			BackgroundImage[3] = BitmapFactory.decodeResource(getResources(), R.drawable.wait3);
 
+			DisplayMetrics dm = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(dm);
+			int mScreenWidth = dm.widthPixels;
+			int mScreenHeight = dm.heightPixels;
+			
+			for(int i=0; i<4; i++)
+			{
+				BackgroundImage[(i++) % 4] = Bitmap.createScaledBitmap(BackgroundImage[(i++) % 4],mScreenWidth,mScreenHeight,true);
+			}
+			
 			Holder = this.getHolder();// 获取holder
 			Holder.addCallback(this);
 		}
@@ -101,13 +112,18 @@ public class WaitActivity extends Activity {
 			public void run() {
 				Canvas canvas = null;
 				int i = 0;
+			
+				int mWidth = BackgroundImage[0].getWidth();
+				int mHeight = BackgroundImage[0].getHeight();
+				
 				while (true) {
 					try {
 						canvas = Holder.lockCanvas();// 获取画布
 						Paint mPaint = new Paint();
 						// 绘制背景
-						canvas.drawBitmap(BackgroundImage[(i++) % 4], null, new Rect(0, 0, 1280, 753), mPaint);
+						canvas.drawBitmap(BackgroundImage[(i++) % 4], null, new Rect(0, 0, mWidth, mHeight), mPaint);
 						// 休眠以控制最大帧频为每秒约30帧
+						
 						Thread.sleep(33);
 						Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 					} catch (Exception e) {
