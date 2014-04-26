@@ -111,8 +111,6 @@ public class WaitActivity extends Activity {
 						Thread.sleep(33);
 						Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 					} catch (Exception e) {
-					} finally {
-						// Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 					}
 				}
 			}

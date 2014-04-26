@@ -1,8 +1,5 @@
 package com.nmlzju.navcamera;
 
-import android.content.Intent;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 
