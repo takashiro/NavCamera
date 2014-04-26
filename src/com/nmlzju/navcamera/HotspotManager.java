@@ -74,6 +74,10 @@ public class HotspotManager {
 	public static String getHotspotGalleryPath(String hotspot_id){
 		return getHotspotDirectory(hotspot_id) + "/images";
 	}
+	
+	public static String getHotspotVideoPath(String hotspot_id){
+		return getHotspotDirectory(hotspot_id) + "/videos";
+	}
 
 	private static List<KDFeaturePoint> getKDFeaturePoint(Bitmap bitmap){
 		RenderImage img = new RenderImage(bitmap);

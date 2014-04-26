@@ -1,13 +1,18 @@
 package com.nmlzju.navcamera;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
 import com.nmlzju.navcamera.R;
 
 public class JumpActivity extends Activity {
@@ -42,10 +47,19 @@ public class JumpActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(JumpActivity.this, LocalVideoActivity.class);
-				intent.putExtra("hotspot_id", name);
-				startActivity(intent);
+				String videoPath = HotspotManager.getHotspotVideoPath(name);
+				File dir = new File(videoPath);
+				if(dir.isDirectory()){
+					File[] file = dir.listFiles();
+					
+					if(file != null && file.length > 0){
+						Intent browser = new Intent(Intent.ACTION_VIEW, Uri.fromFile(file[0]));
+						startActivity(browser);
+						return;
+					}
+				}
+				
+				Toast.makeText(JumpActivity.this, "没有相关视频！", Toast.LENGTH_LONG).show();
 			}
 		});
 		
