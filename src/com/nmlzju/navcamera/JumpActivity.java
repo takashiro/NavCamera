@@ -2,19 +2,17 @@ package com.nmlzju.navcamera;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TabHost;
 import com.nmlzju.navcamera.R;
 
 public class JumpActivity extends Activity {
 
-	ImageButton Bimg, Bvdo;
+	ImageButton galleryButton, videoButton;
 	String name;
 
 	/** Called when the activity is first created. */
@@ -22,33 +20,31 @@ public class JumpActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.jump);
-		Resources res = getResources();
-		Intent gIntent; // Reusable Intent for each tab
-		// Create an Intent to launch an Activity for the tab (to be reused)
-		gIntent = getIntent();
-		name = gIntent.getStringExtra("name");
+		
+		Intent intent = getIntent();
+		name = intent.getStringExtra("hotspot_id");
 
-		Bimg = (ImageButton) findViewById(R.id.ButtonImg);
-		Bvdo = (ImageButton) findViewById(R.id.ButtonVdo);
+		galleryButton = (ImageButton) findViewById(R.id.ButtonImg);
+		videoButton = (ImageButton) findViewById(R.id.ButtonVdo);
 
-		Bimg.setOnClickListener(new Button.OnClickListener() {
+		galleryButton.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(JumpActivity.this, ImgActivity.class);
-				intent.putExtra("name", name);
+				intent.putExtra("hotspot_id", name);
 				startActivity(intent);
 			}
 		});
 
-		Bvdo.setOnClickListener(new Button.OnClickListener() {
+		videoButton.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(JumpActivity.this, LocalVideoActivity.class);
-				intent.putExtra("name", name);
+				intent.putExtra("hotspot_id", name);
 				startActivity(intent);
 			}
 		});

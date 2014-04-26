@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,9 +13,9 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 public class WaitActivity extends Activity {
 
@@ -36,13 +37,13 @@ public class WaitActivity extends Activity {
 			String hotspot_id = (String) msg.obj;
 			
 			if(hotspot_id != null){
-				Log.i("find result", hotspot_id);
-				/*Intent intent = new Intent(main, JumpActivity.class);
+				Intent intent = new Intent(main, JumpActivity.class);
 				intent.putExtra("hotspot_id", hotspot_id);
-				main.startActivity(intent);*/
+				main.startActivity(intent);
+				main.finish();
+			}else{
+				Toast.makeText(main, "未检测到热点信息！", Toast.LENGTH_LONG).show();
 			}
-			
-			main.finish();
 		}
 	}
 	private Handler handler = null;

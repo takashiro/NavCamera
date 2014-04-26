@@ -1,5 +1,6 @@
 package com.nmlzju.navcamera;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +10,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Gallery;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -39,7 +36,7 @@ public class ImgActivity extends Activity implements
 	String imgfn, audfn;
 	UGallery g;
 	Button textButton;
-	String atext;
+	String hotspot_id;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,36 +45,30 @@ public class ImgActivity extends Activity implements
 		setContentView(R.layout.img);
 		Intent intent = getIntent();
 
-		Log.i("begin", "end begin text" + System.currentTimeMillis());
-
 		// 获得Gallery对象
 		g = (UGallery) findViewById(R.id.ImgGallery);
 		textButton = (Button)findViewById(R.id.text);
 
-		atext = intent.getStringExtra("name");
-		String id = atext.substring(0, atext.indexOf("*"));
-		String name = atext.substring(atext.indexOf("*") + 1);
-
+		hotspot_id = intent.getStringExtra("hotspot_id");
 
 		eh = new EventHandler();
 		eh.setOnDownloadCompleteListener(this);
 		eh.setOnDownloadUpdateListener(this);
-		DownloadManager picmanager = new DownloadManager(eh);
-
-		imgpath = queryImage(id);
 
 		nowimgpath = new ArrayList<String>();
-		for (int i = 0; i < (imgpath.size() < 3 ? imgpath.size() : 3); i++) {
-			String qimg = imgpath.get(i);
-			imgfn = qimg.substring(qimg.lastIndexOf("/") + 1, qimg.length());
-			imgdes = TextActivity.TMPFILE + imgfn;
-			picmanager.download(HttpUtil.BASE_URL + qimg, imgdes);
-			nowimgpath.add(imgdes);
+		
+		String galleryPath = HotspotManager.getHotspotGalleryPath(hotspot_id);
+		File gallery = new File(galleryPath);
+		if(gallery.exists() && gallery.isDirectory()){
+			File[] images = gallery.listFiles();
+			for(int i = 0; i < images.length; i++){
+				nowimgpath.add(images[i].getPath());
+			}
 		}
 
 		// 添加ImageAdapter给Gallery对象 注意哦Gallery类并没有setAdapter这个方法
 		// 这个方法是从AbsSpinner类继承的
-		g.setAdapter(new ImgAdapter(this, nowimgpath, imgpath, this));
+		g.setAdapter(new ImgAdapter(this, nowimgpath));
 
 
 		// 设置Gallery的事件监听
@@ -85,20 +76,7 @@ public class ImgActivity extends Activity implements
 		
 		textButton.setOnClickListener(new TextListener());
 
-		Log.i("end", "end image text" + System.currentTimeMillis());
 		ActivityManager.add(this);  
-	}
-
-	
-	private boolean getImageFile(String fName) {
-		boolean re;
-		String ends = fName.substring(fName.lastIndexOf(".") + 1).toLowerCase();
-		if (ends.equals("jpg") || ends.equals("gif") || ends.equals("png")
-				|| ends.equals("jpeg") || ends.equals("bmp"))
-			re = true;
-		else
-			re = false;
-		return re;
 	}
 
 	class GalleryItemListener implements OnItemClickListener {
@@ -118,7 +96,7 @@ public class ImgActivity extends Activity implements
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			Intent intent = new Intent(ImgActivity.this, TextActivity.class);
-			intent.putExtra("name", atext);
+			intent.putExtra("name", hotspot_id);
 			startActivity(intent);
 		}
 		
@@ -140,27 +118,5 @@ public class ImgActivity extends Activity implements
 	public void onDownloadError(Exception e) {
 
 		// info.setText("下载出错");
-	}
-
-	private String queryWord(String id) {
-		// 查询参数
-		String queryString = "id=" + id;
-		// url
-		String url = HttpUtil.BASE_URL + "/OpWord?" + queryString;
-		// 查询返回结果
-		return HttpUtil.queryStringForPost(url);
-	}
-
-	private List<String> queryImage(String id) {
-		// 查询参数
-		String queryString = "id=" + id;
-		// url
-		String url = HttpUtil.BASE_URL + "/OpImage?" + queryString;
-		// 查询返回结果
-		String[] rout = HttpUtil.queryStringForGet(url).split("&");
-		List<String> result = new ArrayList<String>();
-		for (int i = 0; i < rout.length; i++)
-			result.add(rout[i]);
-		return result;
 	}
 }
