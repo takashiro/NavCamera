@@ -21,28 +21,26 @@ import cn.w.song.widget.scroll.SlidePageView.OnPageViewChangedListener;
 public class GuideActivity extends Activity {
 	private String tag = "SlidePageViewDemoActivity";
 	private int maxTime = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.slidepage);//仿微信引导页
-//		setContentView(R.layout.slidepageviewdemo_ui_b);//自定义等宽显示单元demo
-//		setContentView(R.layout.slidepageviewdemo_ui_c);//自定义不规则宽度显示单元demo
+		setContentView(R.layout.slidepage);
+
 		SlidePageView spv = (SlidePageView) findViewById(R.id.slidepageviewtest_ui_SlidePageView_test);
-		//spv.setCurrPagePosition(0);//设置当前页位置
 		spv.setOnPageViewChangedListener(new OnPageViewChangedListener() {
 
 			@Override
-			public void OnPageViewChanged(int currPagePosition,
-					View currPageView) {
+			public void OnPageViewChanged(int currPagePosition, View currPageView) {
 				Log.v(tag, "currPagePosition=" + currPagePosition);
-				if(maxTime == 1)
-				{
+				if (maxTime == 1) {
 					Intent it = new Intent(GuideActivity.this, CameraActivity.class);
 					startActivity(it);
 					finish();
 				}
-				if(currPagePosition == 4)maxTime++;
 				
+				if (currPagePosition == 4)
+					maxTime++;
 			}
 		});
 	}

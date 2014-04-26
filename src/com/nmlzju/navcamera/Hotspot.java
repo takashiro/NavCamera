@@ -18,28 +18,44 @@ import android.graphics.BitmapFactory;
 
 import com.alibaba.simpleimage.analyze.sift.scale.KDFeaturePoint;
 
-public class Hotspot {
+public final class Hotspot {
 	private String id = null;
-	private static final String storageRootPath = HotspotManager.getDataStoragePath();
+	private static final String rootPath = HotspotManager.getDataStoragePath() + "/hotspot/";
 	
 	public Hotspot(String id){
 		this.id = id;
 	}
 	
 	public String getPath(){
-		return storageRootPath + "/hotspot/" + id;
+		return rootPath + id;
+	}
+	
+	public String getTextPath(){
+		return getPath() + "/intro.txt";
 	}
 	
 	public String getGalleryPath(){
 		return getPath() + "/images";
 	}
 	
+	public File[] getGalleryFiles(){
+		File gallery = new File(getGalleryPath());
+		if(gallery.exists() && gallery.isDirectory()){
+			return gallery.listFiles();
+		}
+		
+		return null;
+	}
+	
 	public String getVideoPath(){
 		return getPath() + "/videos";
 	}
 	
+	private List<KDFeaturePoint> featurePoints = null;
 	public List<KDFeaturePoint> getHotspotKDFeaturePoint(){
-		List<KDFeaturePoint> al = null;
+		if(featurePoints != null){
+			return featurePoints;
+		}
 		
 		File siftFile = new File(getPath() + "/img.sift");
 		if(!siftFile.exists()){
@@ -49,7 +65,7 @@ public class Hotspot {
 			}
 			
 			Bitmap hotspotBitmap = BitmapFactory.decodeFile(imgFile.getPath());
-			al = HotspotManager.getKDFeaturePoint(hotspotBitmap);
+			featurePoints = HotspotManager.getKDFeaturePoint(hotspotBitmap);
 			
 			try {
 				siftFile.createNewFile();
@@ -60,7 +76,7 @@ public class Hotspot {
 			
 			try {
 				FileOutputStream os = new FileOutputStream(siftFile);
-				Iterator<KDFeaturePoint> it = al.iterator();
+				Iterator<KDFeaturePoint> it = featurePoints.iterator();
 				while(it.hasNext()){
 					KDFeaturePoint fp = it.next();
 					JSONArray ap = new JSONArray();
@@ -87,7 +103,7 @@ public class Hotspot {
 			}
 
 		}else{
-			al = new ArrayList<KDFeaturePoint>();
+			featurePoints = new ArrayList<KDFeaturePoint>();
 			
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(siftFile));
@@ -108,7 +124,7 @@ public class Hotspot {
 						fp.descriptor[i] = desc.getInt(i);
 					}
 					
-					al.add(fp);
+					featurePoints.add(fp);
 				}
 				
 				br.close();
@@ -125,6 +141,6 @@ public class Hotspot {
 			}
 		}
 		
-		return al;
+		return featurePoints;
 	}
 }

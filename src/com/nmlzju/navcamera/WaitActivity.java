@@ -79,7 +79,7 @@ public class WaitActivity extends Activity {
 			
 			for(int i=0; i<4; i++)
 			{
-				BackgroundImage[(i++) % 4] = Bitmap.createScaledBitmap(BackgroundImage[(i++) % 4],mScreenWidth,mScreenHeight,true);
+				BackgroundImage[i] = Bitmap.createScaledBitmap(BackgroundImage[i], mScreenWidth, mScreenHeight, true);
 			}
 			
 			Holder = this.getHolder();// 获取holder
@@ -111,7 +111,7 @@ public class WaitActivity extends Activity {
 			@Override
 			public void run() {
 				Canvas canvas = null;
-				int i = 0;
+				byte i = 0;
 			
 				int mWidth = BackgroundImage[0].getWidth();
 				int mHeight = BackgroundImage[0].getHeight();
@@ -121,7 +121,11 @@ public class WaitActivity extends Activity {
 						canvas = Holder.lockCanvas();// 获取画布
 						Paint mPaint = new Paint();
 						// 绘制背景
-						canvas.drawBitmap(BackgroundImage[(i++) % 4], null, new Rect(0, 0, mWidth, mHeight), mPaint);
+						canvas.drawBitmap(BackgroundImage[i], null, new Rect(0, 0, mWidth, mHeight), mPaint);
+						i++;
+						if(i >= 4){
+							i = 0;
+						}
 						// 休眠以控制最大帧频为每秒约30帧
 						
 						Thread.sleep(33);
