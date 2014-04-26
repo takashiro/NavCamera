@@ -14,9 +14,10 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 
 public class BootActivity extends Activity {
-	private static final int Version = 1;
-	/** Called when the activity is first created. */
+	/** Called when the APP starts. */
 
+	private static final int Version = 1;
+	
 	private static class ActivityHandler extends Handler{
 		private WeakReference<Activity> parent = null;
 		

@@ -11,10 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -25,46 +21,19 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class CameraActivity extends Activity {
-	/** Called when the activity is first created. */
-
-	private CameraView cv;
+	private CameraView cameraView;
 	private SurfaceHolder holder = null;
-	private Camera mCamera = null;
-	private Bitmap mBitmap = null;
-	private int mScreenWidth;
-	private int mScreenHeight;
-
-	// private FrameLayout fl;
-
-	/**
-	 * 图片去色,返回灰度图片
-	 * 
-	 * @param bmpOriginal
-	 *            传入的图片
-	 * @return 去色后的图片
-	 */
-	public static Bitmap toGrayscale(Bitmap bmpOriginal) {
-		int width, height;
-		height = bmpOriginal.getHeight();
-		width = bmpOriginal.getWidth();
-
-		Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-		Canvas c = new Canvas(bmpGrayscale);
-		Paint paint = new Paint();
-		ColorMatrix cm = new ColorMatrix();
-		cm.setSaturation(0);
-		ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
-		paint.setColorFilter(f);
-		c.drawBitmap(bmpOriginal, 0, 0, paint);
-		return bmpGrayscale;
-	}
+	private Camera camera = null;
+	private Bitmap bitmap = null;
+	private int screenWidth;
+	private int screenHeight;
 
 	public Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
 
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
-			mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-			CameraSnapshot.save(mBitmap);
+			bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+			CameraSnapshot.save(bitmap);
 			Intent intent = new Intent(CameraActivity.this, WaitActivity.class);
 			startActivity(intent);
 		}
@@ -77,15 +46,15 @@ public class CameraActivity extends Activity {
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		mScreenWidth = dm.widthPixels;
-		mScreenHeight = dm.heightPixels;
-		Log.i("ping", mScreenWidth + "");
-		Log.i("ping", mScreenHeight + "");
+		screenWidth = dm.widthPixels;
+		screenHeight = dm.heightPixels;
+		Log.i("ping", screenWidth + "");
+		Log.i("ping", screenHeight + "");
 
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
-		cv = new CameraView(this);
+		cameraView = new CameraView(this);
 
-		setContentView(cv);
+		setContentView(cameraView);
 		ActivityManager.add(this);  
 	}
 
@@ -97,12 +66,11 @@ public class CameraActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_MENU) {
-			if (mCamera != null) {
-				mCamera.takePicture(null, null, pictureCallback);
+			if (camera != null) {
+				camera.takePicture(null, null, pictureCallback);
 			}
 		}
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			
 			showDialog();
 		}
 
@@ -136,21 +104,20 @@ public class CameraActivity extends Activity {
 				@Override
 				public void surfaceDestroyed(SurfaceHolder holder) {
 					// TODO Auto-generated method stub
-					mCamera.stopPreview();
-					mCamera.release();
-					mCamera = null;
+					camera.stopPreview();
+					camera.release();
+					camera = null;
 				}
 
 				@Override
 				public void surfaceCreated(SurfaceHolder holder) {
 					// TODO Auto-generated method stub
-					mCamera = Camera.open();
+					camera = Camera.open();
 					try {
-						Camera.Parameters param = mCamera.getParameters();
+						Camera.Parameters param = camera.getParameters();
 						int bestWidth = 1024;
 						int bestHeight = 600;
-						List<Camera.Size> sizeList = param
-								.getSupportedPreviewSizes();
+						List<Camera.Size> sizeList = param.getSupportedPreviewSizes();
 						
 						// 如果sizeList只有一个我们也没有必要做什么了，因为就他一个别无选择
 
@@ -167,12 +134,12 @@ public class CameraActivity extends Activity {
 							
 							param.setPictureSize(bestWidth, bestHeight);
 						}
-						mCamera.setParameters(param);
+						camera.setParameters(param);
 
-						mCamera.setPreviewDisplay(holder);
+						camera.setPreviewDisplay(holder);
 					} catch (IOException e) {
-						mCamera.release();
-						mCamera = null;
+						camera.release();
+						camera = null;
 					}
 					// mCamera.startPreview();
 				}
@@ -180,7 +147,7 @@ public class CameraActivity extends Activity {
 				@Override
 				public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
-					Camera.Parameters param = mCamera.getParameters();
+					Camera.Parameters param = camera.getParameters();
 					int bestWidth = 1024;
 					int bestHeight = 600;
 					List<Camera.Size> sizeList = param.getSupportedPreviewSizes();
@@ -199,9 +166,9 @@ public class CameraActivity extends Activity {
 						
 						param.setPictureSize(bestWidth, bestHeight);
 					}
-					mCamera.setParameters(param);
+					camera.setParameters(param);
 
-					mCamera.startPreview();
+					camera.startPreview();
 				}
 			});
 		}
