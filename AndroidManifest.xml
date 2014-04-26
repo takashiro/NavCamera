@@ -4,7 +4,7 @@
 	<uses-sdk android:minSdkVersion="8" />
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
-		<activity android:name="com.nmlzju.navcamera.FirstActivity" 
+		<activity android:name="com.nmlzju.navcamera.BootActivity" 
 		android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 		android:label="@string/app_name"
 			android:screenOrientation="landscape">
@@ -23,7 +23,7 @@
 			</intent-filter>
 		</activity>
 		
-				<activity android:name="com.nmlzju.navcamera.MyCameraActivity"
+				<activity android:name="com.nmlzju.navcamera.CameraActivity"
 		android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
 			android:screenOrientation="landscape">
 			<intent-filter>

@@ -72,7 +72,7 @@ public class JumpActivity extends Activity {
 
 		Log.i("ygy", "onKeyDown");
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Intent it = new Intent(JumpActivity.this, MyCameraActivity.class);
+			Intent it = new Intent(JumpActivity.this, CameraActivity.class);
 			startActivity(it);
 			finish();
 		}

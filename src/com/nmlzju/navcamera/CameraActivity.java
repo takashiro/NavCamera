@@ -24,7 +24,7 @@ import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class MyCameraActivity extends Activity {
+public class CameraActivity extends Activity {
 	/** Called when the activity is first created. */
 
 	private CameraView cv;
@@ -65,7 +65,7 @@ public class MyCameraActivity extends Activity {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 			CameraSnapshot.save(mBitmap);
-			Intent intent = new Intent(MyCameraActivity.this, WaitActivity.class);
+			Intent intent = new Intent(CameraActivity.this, WaitActivity.class);
 			startActivity(intent);
 		}
 
@@ -111,7 +111,7 @@ public class MyCameraActivity extends Activity {
 	
 	//确定是否退出
 	private void showDialog() {
-		AlertDialog alertDialog = new AlertDialog.Builder(MyCameraActivity.this)
+		AlertDialog alertDialog = new AlertDialog.Builder(CameraActivity.this)
 			.setTitle("退出程序")
 			.setMessage("是否退出程序")
 			.setPositiveButton("确定", new DialogInterface.OnClickListener(){

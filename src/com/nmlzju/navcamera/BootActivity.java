@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-public class FirstActivity extends Activity {
+public class BootActivity extends Activity {
 	/** Called when the activity is first created. */
 
 	private static class ActivityHandler extends Handler{
@@ -22,7 +22,7 @@ public class FirstActivity extends Activity {
 		
 		public void handleMessage(Message msg){
 			Activity activity = parent.get();
-			Intent intent = new Intent(activity, MyCameraActivity.class);
+			Intent intent = new Intent(activity, CameraActivity.class);
 			activity.startActivity(intent);
 			activity.finish();
 		}

@@ -37,7 +37,7 @@ public class SlidePageActivity extends Activity {
 				Log.v(tag, "currPagePosition=" + currPagePosition);
 				if(maxTime == 1)
 				{
-					Intent it = new Intent(SlidePageActivity.this, MyCameraActivity.class);
+					Intent it = new Intent(SlidePageActivity.this, CameraActivity.class);
 					startActivity(it);
 					finish();
 				}
