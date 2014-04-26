@@ -3,13 +3,25 @@
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:id="@+id/ImgLayout" android:layout_gravity="center_horizontal">
 
-	<com.nmlzju.navcamera.UGallery android:id="@+id/ImgGallery" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:spacing="2px">
-		<!-- android:spacing="2px"用来设置图片之间的间距 -->
-	</com.nmlzju.navcamera.UGallery>
+	<HorizontalScrollView
+	    android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:gravity="center" >
+		<LinearLayout
+		    android:id="@+id/gallery"
+		    android:orientation="horizontal"
+		    android:layout_width="wrap_content"
+		    android:layout_height="fill_parent"
+		    android:spacing="10dp"
+		    android:gravity="center_vertical" >
+		</LinearLayout>
+	</HorizontalScrollView>
 	<Button
-	    android:layout_marginLeft="1180px" android:layout_marginTop="30px"
-    android:layout_width="fill_parent" android:layout_height="wrap_content"
-	android:text="!"    android:id="@+id/text"
+	    android:layout_marginLeft="1180dp"
+	    android:layout_marginTop="30dp"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+		android:text="!"
+		android:id="@+id/text"
     />
 </RelativeLayout>

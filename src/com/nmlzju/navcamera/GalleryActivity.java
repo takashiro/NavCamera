@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -30,7 +33,7 @@ public class GalleryActivity extends Activity{
 	String imgdes, auddes;
 	SystemClock sc;
 	String imgfn, audfn;
-	UGallery g;
+	LinearLayout g;
 	Button textButton;
 	String hotspot_id;
 
@@ -42,7 +45,7 @@ public class GalleryActivity extends Activity{
 		Intent intent = getIntent();
 
 		// 获得Gallery对象
-		g = (UGallery) findViewById(R.id.ImgGallery);
+		g = (LinearLayout) findViewById(R.id.gallery);
 		textButton = (Button)findViewById(R.id.text);
 
 		hotspot_id = intent.getStringExtra("hotspot_id");
@@ -54,17 +57,13 @@ public class GalleryActivity extends Activity{
 		if(gallery.exists() && gallery.isDirectory()){
 			File[] images = gallery.listFiles();
 			for(int i = 0; i < images.length; i++){
-				nowimgpath.add(images[i].getPath());
+				String pathName = images[i].getPath();
+				nowimgpath.add(pathName);
+				ImageView view = new ImageView(g.getContext());
+				view.setImageBitmap(BitmapFactory.decodeFile(pathName));
+				g.addView(view);
 			}
 		}
-
-		// 添加ImageAdapter给Gallery对象 注意哦Gallery类并没有setAdapter这个方法
-		// 这个方法是从AbsSpinner类继承的
-		g.setAdapter(new GalleryAdapter(this, nowimgpath));
-
-
-		// 设置Gallery的事件监听
-		g.setOnItemClickListener(new GalleryItemListener());
 		
 		textButton.setOnClickListener(new TextListener());
 
