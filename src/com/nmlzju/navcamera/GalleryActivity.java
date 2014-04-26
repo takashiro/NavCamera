@@ -51,8 +51,8 @@ public class GalleryActivity extends Activity{
 		hotspot_id = intent.getStringExtra("hotspot_id");
 
 		nowimgpath = new ArrayList<String>();
-		
-		String galleryPath = HotspotManager.getHotspotGalleryPath(hotspot_id);
+
+		String galleryPath = new Hotspot(hotspot_id).getGalleryPath();
 		File gallery = new File(galleryPath);
 		if(gallery.exists() && gallery.isDirectory()){
 			File[] images = gallery.listFiles();

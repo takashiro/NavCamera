@@ -47,7 +47,7 @@ public class HotspotActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				String videoPath = HotspotManager.getHotspotVideoPath(name);
+				String videoPath = new Hotspot(name).getVideoPath();
 				File dir = new File(videoPath);
 				if(dir.isDirectory()){
 					File[] file = dir.listFiles();

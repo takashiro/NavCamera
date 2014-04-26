@@ -34,7 +34,7 @@ public class TextActivity extends Activity {
 
 		// TODO not ideal here
 		String hotspot_id = intent.getStringExtra("hotspot_id");
-		String filePath = HotspotManager.getHotspotDirectory(hotspot_id) + "/intro.txt";
+		String filePath = new Hotspot(hotspot_id).getPath() + "/intro.txt";
 		File intro = new File(filePath);
 		
 		try{
