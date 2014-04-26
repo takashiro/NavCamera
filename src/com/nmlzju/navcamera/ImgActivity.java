@@ -96,7 +96,7 @@ public class ImgActivity extends Activity implements
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			Intent intent = new Intent(ImgActivity.this, TextActivity.class);
-			intent.putExtra("name", hotspot_id);
+			intent.putExtra("hotspot_id", hotspot_id);
 			startActivity(intent);
 		}
 		

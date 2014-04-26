@@ -75,7 +75,7 @@ public class HotspotManager {
 		return getHotspotDirectory(hotspot_id) + "/images";
 	}
 
-	public static List<KDFeaturePoint> getKDFeaturePoint(Bitmap bitmap){
+	private static List<KDFeaturePoint> getKDFeaturePoint(Bitmap bitmap){
 		RenderImage img = new RenderImage(bitmap);
 		img.scaleWithin(100);
 		SIFT sift = new SIFT();
@@ -83,7 +83,7 @@ public class HotspotManager {
 		return sift.getGlobalKDFeaturePoints();
 	}
 	
-	public static List<KDFeaturePoint> getHotspotKDFeaturePoint(String dirPath){
+	private static List<KDFeaturePoint> getHotspotKDFeaturePoint(String dirPath){
 		List<KDFeaturePoint> al = null;
 		
 		File siftFile = new File(dirPath + "/img.sift");
