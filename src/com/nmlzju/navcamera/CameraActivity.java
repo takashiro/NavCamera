@@ -59,14 +59,14 @@ public class CameraActivity extends Activity {
 	//确定是否退出
 	private void showDialog() {
 		AlertDialog alertDialog = new AlertDialog.Builder(CameraActivity.this)
-			.setTitle("退出程序")
-			.setMessage("是否退出程序")
-			.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+			.setTitle(getString(R.string.exit_program))
+			.setMessage(getString(R.string.confirm_to_exit_program))
+			.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener(){
 				public void onClick(DialogInterface dialog, int which) {
 					ActivityManager.finishProgram();
 				}
 			})
-			.setNegativeButton("取消", null)
+			.setNegativeButton(getString(R.string.cancel), null)
 		.create();
 
 		alertDialog.show();

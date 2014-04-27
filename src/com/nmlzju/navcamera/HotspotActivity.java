@@ -59,7 +59,7 @@ public class HotspotActivity extends Activity {
 					}
 				}
 				
-				Toast.makeText(HotspotActivity.this, "没有相关视频！", Toast.LENGTH_LONG).show();
+				Toast.makeText(HotspotActivity.this, getString(R.string.hotspot_has_no_videos), Toast.LENGTH_LONG).show();
 			}
 		});
 		

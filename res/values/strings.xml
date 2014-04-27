@@ -4,4 +4,11 @@
     <string name="app_name">交互体验2</string>
     <string name="hotspot_gallerybutton_description"></string>
     <string name="hotspot_videobutton_description"></string>
+    <string name="exit_program">退出程序</string>
+    <string name="confirm_to_exit_program">是否退出程序</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="hotspot_has_no_videos">没有相关视频！</string>
+	<string name="no_hotspot_is_detected">未检测到热点信息！</string>
+	<string name="brief_introduction">简要介绍：</string>
 </resources>

@@ -64,7 +64,7 @@ public class WaitActivity extends Activity {
 				main.startActivity(intent);
 				main.setAboutToClose(true);
 			}else{
-				Toast.makeText(main, "未检测到热点信息！", Toast.LENGTH_LONG).show();
+				Toast.makeText(main, main.getString(R.string.no_hotspot_is_detected), Toast.LENGTH_LONG).show();
 			}
 		}
 	}
