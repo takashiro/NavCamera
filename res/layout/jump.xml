@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/relativeLayout" 
-android:background="@drawable/jump_bg"  
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent" 
-	android:gravity="center_horizontal"
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	
-        
-		<ImageButton android:id="@+id/ButtonImg" 
-			android:contentDescription="nothing"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/jump_bg"
+    android:padding="20dp" >
+    
+    <TextView android:id="@+id/hotspot_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+	<LinearLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_alignParentRight="true" >
+	    
+	    <ImageButton android:id="@+id/ButtonImg" 
+			android:contentDescription="@+id/hotspot_gallerybutton_description"
 			android:background="#00000000" 
-			android:src="@drawable/jump_image"
-			android:padding="0dip"
-			android:layout_marginLeft="962px"
-			android:layout_marginTop="462px"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:minWidth="300px"
-			android:minHeight="95px" >
-		</ImageButton>
-		
-		<ImageButton android:id="@+id/ButtonVdo" 
-		android:background="#00000000" 
-		android:src="@drawable/jump_video"
-		android:padding="0dip"
-			android:layout_marginLeft="962px"
-			android:layout_marginTop="522px"
+			android:src="@drawable/jump_image" />
+		    
+	    <ImageButton
+		    android:id="@+id/ButtonVdo"
+		    android:contentDescription="@+id/hotspot_videobutton_description"
+		    android:background="#00000000" 
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:minWidth="300px"
-			android:minHeight="95px" >
-		</ImageButton>
+			android:src="@drawable/jump_video" />
+	    
+	</LinearLayout>
 		
 </RelativeLayout>
-

@@ -2,4 +2,6 @@
 <resources>
     <string name="hello">Hello World, MyCameraActivity!</string>
     <string name="app_name">交互体验2</string>
+    <string name="hotspot_gallerybutton_description"></string>
+    <string name="hotspot_videobutton_description"></string>
 </resources>
