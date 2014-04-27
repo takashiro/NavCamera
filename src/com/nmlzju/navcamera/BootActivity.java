@@ -30,12 +30,12 @@ public class BootActivity extends Activity {
 			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
 			Intent intent = null;
 			if(settings.getInt("firstRun", 0) != Version){
-				 intent = new Intent(activity, GuideActivity.class);
-				 Editor editor = settings.edit();
-				 editor.putInt("firstRun", Version);
-				 editor.commit();
+				intent = new Intent(activity, GuideActivity.class);
+				Editor editor = settings.edit();
+				editor.putInt("firstRun", Version);
+				editor.commit();
 			}else{
-				 intent = new Intent(activity, CameraActivity.class);
+				intent = new Intent(activity, CameraActivity.class);
 			}
 			activity.startActivity(intent);
 			activity.finish();
