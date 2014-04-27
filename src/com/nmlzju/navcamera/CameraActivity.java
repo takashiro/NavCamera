@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
@@ -20,15 +19,12 @@ import android.view.SurfaceView;
 public class CameraActivity extends Activity {
 	private SurfaceHolder holder = null;
 	private Camera camera = null;
-	private Bitmap bitmap = null;
 	
 	public Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
 
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
-			bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-			CameraSnapshot.save(bitmap);
-			bitmap = null;
+			CameraSnapshot.save(BitmapFactory.decodeByteArray(data, 0, data.length));
 			Intent intent = new Intent(CameraActivity.this, WaitActivity.class);
 			startActivity(intent);
 		}
