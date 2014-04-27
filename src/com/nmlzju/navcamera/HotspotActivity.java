@@ -6,8 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -65,19 +63,4 @@ public class HotspotActivity extends Activity {
 		
 		ActivityManager.add(this);  
 	}
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-
-		Log.i("ygy", "onKeyDown");
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			Intent it = new Intent(HotspotActivity.this, CameraActivity.class);
-			startActivity(it);
-			finish();
-		}
-
-		return super.onKeyDown(keyCode, event);
-	}
-
 }
