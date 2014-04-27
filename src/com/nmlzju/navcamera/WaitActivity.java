@@ -5,6 +5,7 @@ import java.lang.ref.WeakReference;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -22,11 +23,11 @@ public class WaitActivity extends Activity {
 	// 照片
 	private Bitmap snapshot;
 
-	// 背景图
-	private Bitmap[] BackgroundImage = new Bitmap[4];
-	
 	// 动画效果线程
 	Thread animationThread;
+	
+	// 动态背景帧ID
+	private static final int[] BACKGROUND_IMAGE_ID = new int[]{R.drawable.wait0, R.drawable.wait1, R.drawable.wait2, R.drawable.wait3};
 
 	// 定义Handler对象
 	private ResultHandler handler = null;
@@ -92,22 +93,27 @@ public class WaitActivity extends Activity {
 	class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
 		SurfaceHolder Holder;
-
+		
+		// 背景图
+		private Bitmap[] backgroundImage = new Bitmap[4];
+		
 		public MySurfaceView(Context context) {
 			super(context);
-			BackgroundImage[0] = BitmapFactory.decodeResource(getResources(), R.drawable.wait0);
-			BackgroundImage[1] = BitmapFactory.decodeResource(getResources(), R.drawable.wait1);
-			BackgroundImage[2] = BitmapFactory.decodeResource(getResources(), R.drawable.wait2);
-			BackgroundImage[3] = BitmapFactory.decodeResource(getResources(), R.drawable.wait3);
 
 			DisplayMetrics dm = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(dm);
 			int mScreenWidth = dm.widthPixels;
 			int mScreenHeight = dm.heightPixels;
 			
-			for(int i=0; i<4; i++)
-			{
-				BackgroundImage[i] = Bitmap.createScaledBitmap(BackgroundImage[i], mScreenWidth, mScreenHeight, true);
+			Resources resources = getResources();
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			for(int i = 0; i < 4; i++) {
+				options.inJustDecodeBounds = true;
+				BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
+				options.inJustDecodeBounds = false;
+				options.inSampleSize = calculateInSampleSize(options, mScreenWidth, mScreenHeight);
+				backgroundImage[i] = BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
+				backgroundImage[i] = Bitmap.createScaledBitmap(backgroundImage[i], mScreenWidth, mScreenHeight, false);
 			}
 			
 			Holder = this.getHolder();// 获取holder
@@ -146,7 +152,7 @@ public class WaitActivity extends Activity {
 					canvas = Holder.lockCanvas();// 获取画布
 					Paint mPaint = new Paint();
 					// 绘制背景
-					canvas.drawBitmap(BackgroundImage[i], 0, 0, mPaint);
+					canvas.drawBitmap(backgroundImage[i], 0, 0, mPaint);
 					i++;
 					if(i >= 4){
 						i = 0;
@@ -162,8 +168,31 @@ public class WaitActivity extends Activity {
 					Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 				}
 				
+				backgroundImage = null;
 				finish();
 			}
 		}
+	}
+	
+	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+		// Raw height and width of image
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+
+		if (height > reqHeight || width > reqWidth) {
+
+			final int halfHeight = height / 2;
+			final int halfWidth = width / 2;
+
+			// Calculate the largest inSampleSize value that is a power of 2 and
+			// keeps both
+			// height and width larger than the requested height and width.
+			while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+				inSampleSize *= 2;
+			}
+		}
+
+		return inSampleSize;
 	}
 }
