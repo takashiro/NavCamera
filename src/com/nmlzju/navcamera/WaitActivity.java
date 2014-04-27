@@ -19,10 +19,6 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 
 public class WaitActivity extends Activity {
-
-	// 照片
-	private Bitmap snapshot;
-
 	// 动画效果线程
 	Thread animationThread;
 	
@@ -36,7 +32,6 @@ public class WaitActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(new MySurfaceView(this));
-		snapshot = CameraSnapshot.getBitmap();
 		handler = new ResultHandler(this);
 		ActivityManager.add(this);
 		
@@ -73,7 +68,10 @@ public class WaitActivity extends Activity {
 	class BackThread implements Runnable {
 		@Override
 		public void run() {
+			Bitmap snapshot = CameraSnapshot.getBitmap();
 			String hotspot = HotspotManager.findHotspot(snapshot);
+			snapshot = null;
+			CameraSnapshot.save(snapshot);
 
 			// 构造需要向 Handler 发送的消息
 			Message msg = handler.obtainMessage(0, hotspot);

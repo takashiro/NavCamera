@@ -28,6 +28,7 @@ public class CameraActivity extends Activity {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
 			CameraSnapshot.save(bitmap);
+			bitmap = null;
 			Intent intent = new Intent(CameraActivity.this, WaitActivity.class);
 			startActivity(intent);
 		}
