@@ -11,4 +11,5 @@
     <string name="hotspot_has_no_videos">没有相关视频！</string>
 	<string name="no_hotspot_is_detected">未检测到热点信息！</string>
 	<string name="brief_introduction">简要介绍：</string>
+	<string name="text_button_icon">介绍</string>
 </resources>

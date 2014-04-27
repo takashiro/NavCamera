@@ -16,12 +16,16 @@
 		    android:gravity="center_vertical" >
 		</LinearLayout>
 	</HorizontalScrollView>
+	
 	<Button
-	    android:layout_marginLeft="1180dp"
-	    android:layout_marginTop="30dp"
-    	android:layout_width="fill_parent"
+	    android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
-		android:text="!"
+		android:text="@string/text_button_icon"
 		android:id="@+id/text"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginTop="15dp"
+		android:layout_marginRight="15dp"
     />
+	
 </RelativeLayout>
