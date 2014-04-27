@@ -15,12 +15,11 @@ import android.os.Environment;
 
 public class HotspotManager {
 	
-	private static String storageRootPath = Environment.getExternalStorageDirectory().getPath() + "/NavCamera";
+	public static final String STORAGE_ROOT_PATH = Environment.getExternalStorageDirectory().getPath() + "/NavCamera";
+	public static final String HOTSPOT_PATH = STORAGE_ROOT_PATH + "/hotspot";
 	
 	public static String findHotspot(Bitmap bitmap){
-		String storagePath = storageRootPath + "/hotspot";
-
-		File storage = new File(storagePath);
+		File storage = new File(HOTSPOT_PATH);
 		if(!storage.exists()){
 			storage.mkdirs();
 			return null;
@@ -57,10 +56,6 @@ public class HotspotManager {
 		}
 		
 		return targetHotspot;
-	}
-	
-	public static String getDataStoragePath(){
-		return storageRootPath;
 	}
 
 	public static List<KDFeaturePoint> getKDFeaturePoint(Bitmap bitmap){
