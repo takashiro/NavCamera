@@ -20,14 +20,13 @@ import com.alibaba.simpleimage.analyze.sift.scale.KDFeaturePoint;
 
 public final class Hotspot {
 	private String id = null;
-	private static final String rootPath = HotspotManager.getDataStoragePath() + "/hotspot/";
-	
+
 	public Hotspot(String id){
 		this.id = id;
 	}
 	
 	public String getPath(){
-		return rootPath + id;
+		return HotspotManager.HOTSPOT_PATH + "/" + id;
 	}
 	
 	public String getTextPath(){
