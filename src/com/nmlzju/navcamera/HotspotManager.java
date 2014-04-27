@@ -49,7 +49,7 @@ public class HotspotManager {
 		    List<Match> ms = MatchKeys.findMatchesBBF(spotFP, snapshotKDTree);
 		    
 		    //TODO 此处可能需要修改，来判断图片是否匹配
-		    if(ms.size() >= maxMatchedKeyNum){
+		    if(ms.size() > maxMatchedKeyNum){
 		    	maxMatchedKeyNum = ms.size();
 		    	targetHotspot = dir.getName();
 		    }
