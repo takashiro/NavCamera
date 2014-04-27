@@ -24,7 +24,7 @@ public class GalleryActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.img);
+		setContentView(R.layout.gallery);
 		Intent intent = getIntent();
 
 		// 获得Gallery对象

@@ -46,7 +46,7 @@ public class BootActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.first);
+		setContentView(R.layout.boot);
 		
 		activityHandler = new ActivityHandler(this);
 

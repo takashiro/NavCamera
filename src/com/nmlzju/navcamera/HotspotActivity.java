@@ -24,7 +24,7 @@ public class HotspotActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.jump);
+		setContentView(R.layout.hotspot);
 		
 		Intent intent = getIntent();
 		name = intent.getStringExtra("hotspot_id");
