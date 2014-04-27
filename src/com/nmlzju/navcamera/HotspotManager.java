@@ -28,6 +28,9 @@ public class HotspotManager {
 
 		List<KDFeaturePoint> snapshotFP = getKDFeaturePoint(bitmap);
 		KDTree snapshotKDTree = KDTree.createKDTree(snapshotFP);
+		if(snapshotKDTree == null){
+			return null;
+		}
 		
 		String targetHotspot = null;
 		int maxMatchedKeyNum = 0;
