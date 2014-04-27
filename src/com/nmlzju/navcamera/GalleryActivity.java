@@ -4,20 +4,18 @@ import java.io.File;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class GalleryActivity extends Activity{
 
-	File[] images;
 	LinearLayout gallery;
 	Button textButton;
 	String hotspot_id;
@@ -35,29 +33,23 @@ public class GalleryActivity extends Activity{
 
 		hotspot_id = intent.getStringExtra("hotspot_id");
 
-		images = new Hotspot(hotspot_id).getGalleryFiles();
-		for(int i = 0; i < images.length; i++){
-			String pathName = images[i].getPath();
-			ImageView view = new ImageView(gallery.getContext());
-			view.setImageBitmap(BitmapFactory.decodeFile(pathName));
-			gallery.addView(view);
+		File[] images = new Hotspot(hotspot_id).getGalleryFiles();
+		if(images != null){
+			for(int i = 0; i < images.length; i++){
+				Log.i("gallery", "loading " + images[i].getPath());
+				ImageView view = new ImageView(gallery.getContext());
+				//TODO 加载过大的图片会导致崩溃
+				Bitmap bitmap = BitmapFactory.decodeFile(images[i].getPath());
+				if(bitmap != null){
+					view.setImageBitmap(bitmap);
+				}
+				gallery.addView(view);
+			}
 		}
 		
 		textButton.setOnClickListener(new TextListener());
 
 		ActivityManager.add(this);  
-	}
-
-	class GalleryItemListener implements OnItemClickListener {
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			//调用系统看图程序查看大图
-			if(images == null || images.length <= position || position < 0){
-				return;
-			}
-			
-			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromFile(images[position]));
-			startActivity(intent);
-		}
 	}
 	
 	class TextListener implements OnClickListener{
