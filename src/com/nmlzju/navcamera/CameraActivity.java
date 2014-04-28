@@ -13,6 +13,7 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -38,7 +39,7 @@ public class CameraActivity extends Activity {
 		getWindow().setFormat(PixelFormat.TRANSLUCENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(new CameraView(this));
-		ActivityManager.add(this);  
+		ActivityManager.add(this);
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public class CameraActivity extends Activity {
 
 	class CameraView extends SurfaceView {
 		Camera.Size size = null;
-
+		
 		public CameraView(Context context) {
 			super(context);
 
@@ -124,5 +125,15 @@ public class CameraActivity extends Activity {
 				}
 			});
 		}
+	}
+	
+	@Override public boolean onTouchEvent(MotionEvent e){
+		if(e.getAction() == MotionEvent.ACTION_UP){
+			if(camera != null){
+				camera.takePicture(null, null, pictureCallback);
+			}
+		}
+		
+		return super.onTouchEvent(e);
 	}
 }
