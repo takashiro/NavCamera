@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nmlzju.navcamera.R;
 
 public class HotspotActivity extends Activity {
 
-	ImageButton galleryButton, videoButton;
 	String name;
 
 	/** Called when the activity is first created. */
@@ -26,9 +26,13 @@ public class HotspotActivity extends Activity {
 		
 		Intent intent = getIntent();
 		name = intent.getStringExtra("hotspot_id");
+		Hotspot hotspot = new Hotspot(name);
 
-		galleryButton = (ImageButton) findViewById(R.id.ButtonImg);
-		videoButton = (ImageButton) findViewById(R.id.ButtonVdo);
+		TextView textView = (TextView) findViewById(R.id.hotspot_name);
+		textView.setText(hotspot.getName());
+		
+		ImageButton galleryButton = (ImageButton) findViewById(R.id.ButtonImg);
+		ImageButton videoButton = (ImageButton) findViewById(R.id.ButtonVdo);
 
 		galleryButton.setOnClickListener(new Button.OnClickListener() {
 

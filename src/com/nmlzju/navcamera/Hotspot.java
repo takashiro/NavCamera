@@ -29,6 +29,27 @@ public final class Hotspot {
 		return HotspotManager.HOTSPOT_PATH + "/" + id;
 	}
 	
+	public String getName(){
+		String filePath = getTextPath();
+		File intro = new File(filePath);
+
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(intro));
+			String line = br.readLine();
+			br.close();
+			return line;
+
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public String getRawImage(){
+		return getPath() + "/hotspot.jpg";
+	}
+	
 	public String getTextPath(){
 		return getPath() + "/intro.txt";
 	}
@@ -58,7 +79,7 @@ public final class Hotspot {
 		
 		File siftFile = new File(getPath() + "/img.sift");
 		if(!siftFile.exists()){
-			File imgFile = new File(getPath() + "/hotspot.jpg");
+			File imgFile = new File(getRawImage());
 			if(!imgFile.exists()){
 				return null;
 			}
