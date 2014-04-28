@@ -1,7 +1,6 @@
 package com.nmlzju.navcamera;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,9 +22,6 @@ import android.widget.Toast;
 public class WaitActivity extends Activity {
 	// 动画效果线程
 	Thread animationThread;
-	
-	// 动态背景帧ID
-	private static final int[] BACKGROUND_IMAGE_ID = new int[]{R.drawable.wait0, R.drawable.wait1, R.drawable.wait2, R.drawable.wait3};
 
 	// 定义Handler对象
 	private ResultHandler handler = null;
@@ -89,10 +86,12 @@ public class WaitActivity extends Activity {
 	// 自定义的SurfaceView子类
 	class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
-		SurfaceHolder Holder;
+		SurfaceHolder holder;
 		
 		// 背景图
-		private ArrayList<Bitmap> backgroundImage = new ArrayList<Bitmap>();
+		private Bitmap background = null;
+		
+		private Bitmap icon = null;
 		
 		public MySurfaceView(Context context) {
 			super(context);
@@ -102,29 +101,17 @@ public class WaitActivity extends Activity {
 			int mScreenWidth = dm.widthPixels;
 			int mScreenHeight = dm.heightPixels;
 			
-			backgroundImage.ensureCapacity(4);
 			Resources resources = getResources();
-			for(int i = 0; i < 4; i++) {
-				BitmapFactory.Options options = new BitmapFactory.Options();
-				options.inJustDecodeBounds = true;
-				BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
-				options.inJustDecodeBounds = false;
-				options.inSampleSize = BitmapUtil.calculateInSampleSize(options, mScreenWidth, mScreenHeight);
-				Bitmap bitmap = null;
-				try{
-					bitmap = BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
-					if(bitmap.getWidth() != mScreenWidth || bitmap.getHeight() != mScreenHeight){
-						bitmap = Bitmap.createScaledBitmap(bitmap, mScreenWidth, mScreenHeight, false);
-					}
-				}catch(OutOfMemoryError e){
-					break;
-				}
-				
-				backgroundImage.add(bitmap);
+			
+			icon = BitmapFactory.decodeResource(resources, R.drawable.wait_run);
+			
+			background = BitmapFactory.decodeResource(resources, R.drawable.wait_bg);
+			if(background.getWidth() != mScreenWidth || background.getHeight() != mScreenHeight){
+				background = Bitmap.createScaledBitmap(background, mScreenWidth, mScreenHeight, false);
 			}
 			
-			Holder = this.getHolder();// 获取holder
-			Holder.addCallback(this);
+			holder = this.getHolder();// 获取holder
+			holder.addCallback(this);
 			
 			animationThread = new Thread(new AnimationThread());
 		}
@@ -152,18 +139,22 @@ public class WaitActivity extends Activity {
 		class AnimationThread implements Runnable {
 			@Override
 			public void run() {
-				Canvas canvas = null;
-				byte i = 0;
-
+				Matrix matrix = new Matrix();
+				
+				float icon_x = (float) (background.getWidth() - icon.getWidth()) / 2;
+				float icon_y = (float) (background.getHeight() - icon.getHeight()) / 2;
+				matrix.postTranslate(icon_x, icon_y);
+				
 				while (!aboutToClose) {
-					canvas = Holder.lockCanvas();// 获取画布
-					Paint mPaint = new Paint();
+					Canvas canvas = holder.lockCanvas();// 获取画布
+					Paint paint = new Paint();
+					
 					// 绘制背景
-					canvas.drawBitmap(backgroundImage.get(i), 0, 0, mPaint);
-					i++;
-					if(i >= backgroundImage.size()){
-						i = 0;
-					}
+					canvas.drawBitmap(background, 0, 0, paint);
+					
+					// 绘制旋转图标
+					matrix.postRotate(45, icon_x + (float) icon.getWidth() / 2, icon_y + (float) icon.getHeight() / 2);
+					canvas.drawBitmap(icon, matrix, paint);
 
 					// 休眠以控制最大帧频为每秒约30帧
 					try {
@@ -172,10 +163,11 @@ public class WaitActivity extends Activity {
 						e.printStackTrace();
 					}
 
-					Holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
+					holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 				}
 				
-				backgroundImage = null;
+				icon = null;
+				background = null;
 				finish();
 			}
 		}
