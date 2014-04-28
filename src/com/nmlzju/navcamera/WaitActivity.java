@@ -1,6 +1,7 @@
 package com.nmlzju.navcamera;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
@@ -91,7 +92,7 @@ public class WaitActivity extends Activity {
 		SurfaceHolder Holder;
 		
 		// 背景图
-		private Bitmap[] backgroundImage = new Bitmap[4];
+		private ArrayList<Bitmap> backgroundImage = new ArrayList<Bitmap>();
 		
 		public MySurfaceView(Context context) {
 			super(context);
@@ -101,6 +102,7 @@ public class WaitActivity extends Activity {
 			int mScreenWidth = dm.widthPixels;
 			int mScreenHeight = dm.heightPixels;
 			
+			backgroundImage.ensureCapacity(4);
 			Resources resources = getResources();
 			for(int i = 0; i < 4; i++) {
 				BitmapFactory.Options options = new BitmapFactory.Options();
@@ -108,12 +110,17 @@ public class WaitActivity extends Activity {
 				BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
 				options.inJustDecodeBounds = false;
 				options.inSampleSize = BitmapUtil.calculateInSampleSize(options, mScreenWidth, mScreenHeight);
-				Bitmap bitmap = BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
-				if(bitmap.getWidth() != mScreenWidth || bitmap.getHeight() != mScreenHeight){
-					backgroundImage[i] = Bitmap.createScaledBitmap(bitmap, mScreenWidth, mScreenHeight, false);
-				}else{
-					backgroundImage[i] = bitmap;
+				Bitmap bitmap = null;
+				try{
+					bitmap = BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
+					if(bitmap.getWidth() != mScreenWidth || bitmap.getHeight() != mScreenHeight){
+						bitmap = Bitmap.createScaledBitmap(bitmap, mScreenWidth, mScreenHeight, false);
+					}
+				}catch(OutOfMemoryError e){
+					break;
 				}
+				
+				backgroundImage.add(bitmap);
 			}
 			
 			Holder = this.getHolder();// 获取holder
@@ -152,9 +159,9 @@ public class WaitActivity extends Activity {
 					canvas = Holder.lockCanvas();// 获取画布
 					Paint mPaint = new Paint();
 					// 绘制背景
-					canvas.drawBitmap(backgroundImage[i], 0, 0, mPaint);
+					canvas.drawBitmap(backgroundImage.get(i), 0, 0, mPaint);
 					i++;
-					if(i >= 4){
+					if(i >= backgroundImage.size()){
 						i = 0;
 					}
 
