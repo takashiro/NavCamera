@@ -142,8 +142,10 @@ public class WaitActivity extends Activity {
 				Matrix matrix = new Matrix();
 				
 				// 图标位置
-				float icon_x = (float) ((background.getWidth() - icon.getWidth()) / 2);
-				float icon_y = (float) ((background.getHeight() - icon.getHeight()) / 2);
+				float background_width = (float) background.getWidth();
+				float background_height = (float) background.getHeight();
+				float icon_x = (background_width - icon.getWidth()) / 2 + background_width / 640 * 3;
+				float icon_y = (background_height - icon.getHeight()) / 2 - background_height / 800 * 9;
 				matrix.postTranslate(icon_x, icon_y);
 				
 				// 图标旋转中心
