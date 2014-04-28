@@ -104,8 +104,8 @@ public class WaitActivity extends Activity {
 			int mScreenHeight = dm.heightPixels;
 			
 			Resources resources = getResources();
-			BitmapFactory.Options options = new BitmapFactory.Options();
 			for(int i = 0; i < 4; i++) {
+				BitmapFactory.Options options = new BitmapFactory.Options();
 				options.inJustDecodeBounds = true;
 				BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
 				options.inJustDecodeBounds = false;
