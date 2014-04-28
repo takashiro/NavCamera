@@ -32,7 +32,7 @@ public class HotspotManager {
 		}
 		
 		String targetHotspot = null;
-		int maxMatchedKeyNum = 0;
+		int maxMatchedKeyNum = 3;
 		File[] hotspotDirs = storage.listFiles();
 		for(int i = 0; i < hotspotDirs.length; i++){
 			File dir = hotspotDirs[i];
