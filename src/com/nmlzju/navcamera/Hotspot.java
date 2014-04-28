@@ -101,10 +101,10 @@ public final class Hotspot {
 					KDFeaturePoint fp = it.next();
 					JSONArray ap = new JSONArray();
 					ap.put(fp.dim);
-					ap.put(fp.x);
-					ap.put(fp.y);
-					ap.put(fp.scale);
-					ap.put(fp.orientation);
+					ap.put(Float.floatToIntBits(fp.x));
+					ap.put(Float.floatToIntBits(fp.y));
+					ap.put(Float.floatToIntBits(fp.scale));
+					ap.put(Float.floatToIntBits(fp.orientation));
 				
 					JSONArray desc = new JSONArray();
 					for(int i = 0; i < fp.descriptor.length; i++){
@@ -116,8 +116,6 @@ public final class Hotspot {
 					os.write('\n');
 				}
 				os.close();
-			} catch (JSONException e) {
-				return null;
 			} catch (IOException e) {
 				return null;
 			}
@@ -133,10 +131,10 @@ public final class Hotspot {
 
 					KDFeaturePoint fp = new KDFeaturePoint();
 					fp.dim = arr.getInt(0);
-					fp.x = (float) arr.getDouble(1);
-					fp.y = (float) arr.getDouble(2);
-					fp.scale = (float) arr.getDouble(3);
-					fp.orientation = (float) arr.getDouble(4);
+					fp.x = Float.intBitsToFloat(arr.getInt(1));
+					fp.y = Float.intBitsToFloat(arr.getInt(2));
+					fp.scale = Float.intBitsToFloat(arr.getInt(3));
+					fp.orientation = Float.intBitsToFloat(arr.getInt(4));
 					
 					JSONArray desc = arr.getJSONArray(5);
 					fp.descriptor = new int[desc.length()];
