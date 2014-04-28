@@ -68,10 +68,8 @@ public class WaitActivity extends Activity {
 	class BackThread implements Runnable {
 		@Override
 		public void run() {
-			Bitmap snapshot = CameraSnapshot.getBitmap();
-			String hotspot = HotspotManager.findHotspot(snapshot);
-			snapshot = null;
-			CameraSnapshot.save(snapshot);
+			String hotspot = HotspotManager.findHotspot(CameraSnapshot.getBitmap());
+			CameraSnapshot.save(null);
 
 			// 构造需要向 Handler 发送的消息
 			Message msg = handler.obtainMessage(0, hotspot);
@@ -110,8 +108,12 @@ public class WaitActivity extends Activity {
 				BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
 				options.inJustDecodeBounds = false;
 				options.inSampleSize = BitmapUtil.calculateInSampleSize(options, mScreenWidth, mScreenHeight);
-				backgroundImage[i] = BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
-				backgroundImage[i] = Bitmap.createScaledBitmap(backgroundImage[i], mScreenWidth, mScreenHeight, false);
+				Bitmap bitmap = BitmapFactory.decodeResource(resources, BACKGROUND_IMAGE_ID[i], options);
+				if(bitmap.getWidth() != mScreenWidth || bitmap.getHeight() != mScreenHeight){
+					backgroundImage[i] = Bitmap.createScaledBitmap(bitmap, mScreenWidth, mScreenHeight, false);
+				}else{
+					backgroundImage[i] = bitmap;
+				}
 			}
 			
 			Holder = this.getHolder();// 获取holder
