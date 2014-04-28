@@ -20,9 +20,6 @@ import android.view.SurfaceView;
 import android.widget.Toast;
 
 public class WaitActivity extends Activity {
-	// 动画效果线程
-	Thread animationThread;
-
 	// 定义Handler对象
 	private ResultHandler handler = null;
 
@@ -36,9 +33,9 @@ public class WaitActivity extends Activity {
 		new Thread(new BackThread()).start();
 	}
 	
-	private boolean aboutToClose = false;
-	public void setAboutToClose(boolean value){
-		aboutToClose = value;
+	private boolean animationStopped = false;
+	public void stopAnimation(boolean value){
+		animationStopped = value;
 	}
 	
 	private static class ResultHandler extends Handler{
@@ -52,11 +49,12 @@ public class WaitActivity extends Activity {
 			WaitActivity main = parent.get();
 			String hotspot_id = (String) msg.obj;
 			
+			main.stopAnimation(true);
 			if(hotspot_id != null){
 				Intent intent = new Intent(main, HotspotActivity.class);
 				intent.putExtra("hotspot_id", hotspot_id);
 				main.startActivity(intent);
-				main.setAboutToClose(true);
+				main.finish();
 			}else{
 				Toast.makeText(main, main.getString(R.string.no_hotspot_is_detected), Toast.LENGTH_LONG).show();
 			}
@@ -76,7 +74,7 @@ public class WaitActivity extends Activity {
 			if(hotspot == null){
 				handler.postDelayed(new Runnable(){
 					public void run(){
-						setAboutToClose(true);
+						finish();
 					}
 				}, 3500);
 			}
@@ -89,31 +87,12 @@ public class WaitActivity extends Activity {
 		SurfaceHolder holder;
 		
 		// 背景图
-		private Bitmap background = null;
-		
-		private Bitmap icon = null;
 		
 		public MySurfaceView(Context context) {
 			super(context);
-
-			DisplayMetrics dm = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(dm);
-			int mScreenWidth = dm.widthPixels;
-			int mScreenHeight = dm.heightPixels;
-			
-			Resources resources = getResources();
-			
-			icon = BitmapFactory.decodeResource(resources, R.drawable.wait_run);
-			
-			background = BitmapFactory.decodeResource(resources, R.drawable.wait_bg);
-			if(background.getWidth() != mScreenWidth || background.getHeight() != mScreenHeight){
-				background = Bitmap.createScaledBitmap(background, mScreenWidth, mScreenHeight, false);
-			}
 			
 			holder = this.getHolder();// 获取holder
 			holder.addCallback(this);
-			
-			animationThread = new Thread(new AnimationThread());
 		}
 
 		@Override
@@ -125,6 +104,7 @@ public class WaitActivity extends Activity {
 		@Override
 		public void surfaceCreated(SurfaceHolder holder) {
 			// 启动动画线程
+			Thread animationThread = new Thread(new AnimationThread());
 			animationThread.start();
 		}
 
@@ -139,6 +119,20 @@ public class WaitActivity extends Activity {
 		class AnimationThread implements Runnable {
 			@Override
 			public void run() {
+				DisplayMetrics dm = new DisplayMetrics();
+				getWindowManager().getDefaultDisplay().getMetrics(dm);
+				int screenWidth = dm.widthPixels;
+				int screenHeight = dm.heightPixels;
+				
+				Resources resources = getResources();
+				
+				Bitmap icon = BitmapFactory.decodeResource(resources, R.drawable.wait_run);
+				
+				Bitmap background = BitmapFactory.decodeResource(resources, R.drawable.wait_bg);
+				if(background.getWidth() != screenWidth || background.getHeight() != screenHeight){
+					background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
+				}
+
 				Matrix matrix = new Matrix();
 				
 				// 图标位置
@@ -152,7 +146,7 @@ public class WaitActivity extends Activity {
 				float icon_px = icon_x + (float) icon.getWidth() / 2;
 				float icon_py = icon_y + (float) icon.getHeight() / 2;
 				
-				while (!aboutToClose) {
+				while (!animationStopped) {
 					Canvas canvas = holder.lockCanvas();// 获取画布
 					Paint paint = new Paint();
 					
@@ -163,19 +157,15 @@ public class WaitActivity extends Activity {
 					matrix.postRotate(45, icon_px, icon_py);
 					canvas.drawBitmap(icon, matrix, paint);
 
-					// 休眠以控制最大帧频为每秒约30帧
+					// 休眠以控制最大帧频
 					try {
-						Thread.sleep(33);
+						Thread.sleep(50);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 
 					holder.unlockCanvasAndPost(canvas);// 解锁画布，提交画好的图像
 				}
-				
-				icon = null;
-				background = null;
-				finish();
 			}
 		}
 	}
