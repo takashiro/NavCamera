@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -26,7 +25,7 @@ public class CameraActivity extends Activity {
 
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
-			CameraSnapshot.save(BitmapFactory.decodeByteArray(data, 0, data.length));
+			CameraSnapshot.save(data);
 			Intent intent = new Intent(CameraActivity.this, WaitActivity.class);
 			startActivity(intent);
 		}

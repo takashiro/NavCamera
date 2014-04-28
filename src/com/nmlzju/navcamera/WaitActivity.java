@@ -67,7 +67,7 @@ public class WaitActivity extends Activity {
 		@Override
 		public void run() {
 			String hotspot = HotspotManager.findHotspot(CameraSnapshot.getBitmap());
-			CameraSnapshot.save(null);
+			CameraSnapshot.clear();
 
 			// 构造需要向 Handler 发送的消息
 			Message msg = handler.obtainMessage(0, hotspot);
@@ -141,9 +141,14 @@ public class WaitActivity extends Activity {
 			public void run() {
 				Matrix matrix = new Matrix();
 				
-				float icon_x = (float) (background.getWidth() - icon.getWidth()) / 2;
-				float icon_y = (float) (background.getHeight() - icon.getHeight()) / 2;
+				// 图标位置
+				float icon_x = (float) ((background.getWidth() - icon.getWidth()) / 2);
+				float icon_y = (float) ((background.getHeight() - icon.getHeight()) / 2);
 				matrix.postTranslate(icon_x, icon_y);
+				
+				// 图标旋转中心
+				float icon_px = icon_x + (float) icon.getWidth() / 2;
+				float icon_py = icon_y + (float) icon.getHeight() / 2;
 				
 				while (!aboutToClose) {
 					Canvas canvas = holder.lockCanvas();// 获取画布
@@ -153,7 +158,7 @@ public class WaitActivity extends Activity {
 					canvas.drawBitmap(background, 0, 0, paint);
 					
 					// 绘制旋转图标
-					matrix.postRotate(45, icon_x + (float) icon.getWidth() / 2, icon_y + (float) icon.getHeight() / 2);
+					matrix.postRotate(45, icon_px, icon_py);
 					canvas.drawBitmap(icon, matrix, paint);
 
 					// 休眠以控制最大帧频为每秒约30帧
