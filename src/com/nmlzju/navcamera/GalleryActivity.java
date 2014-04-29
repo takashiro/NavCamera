@@ -86,7 +86,6 @@ public class GalleryActivity extends Activity{
 
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
 			Intent intent = new Intent(GalleryActivity.this, TextActivity.class);
 			intent.putExtra("hotspot_id", hotspot_id);
 			startActivity(intent);
