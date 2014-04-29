@@ -8,7 +8,6 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.WindowManager;
 
 public class CameraActivity extends Activity {
@@ -22,25 +21,23 @@ public class CameraActivity extends Activity {
 		
 		setContentView(R.layout.camera);
 		cameraView = (CameraView) findViewById(R.id.camera_view);
+		cameraView.setJPEGPictureCallback(new Camera.PictureCallback() {
+			@Override
+			public void onPictureTaken(byte[] data, Camera camera) {
+				CameraSnapshot.save(data);
+				Intent intent = new Intent(CameraActivity.this, WaitActivity.class);
+				startActivity(intent);
+			}
+		});
 		
 		ActivityManager.add(this);
 	}
-
-	public Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
-
-		@Override
-		public void onPictureTaken(byte[] data, Camera camera) {
-			CameraSnapshot.save(data);
-			Intent intent = new Intent(CameraActivity.this, WaitActivity.class);
-			startActivity(intent);
-		}
-	};
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_MENU) {
 			if (cameraView != null) {
-				cameraView.takePicture(pictureCallback);
+				cameraView.takePicture();
 			}
 		}
 
@@ -62,15 +59,5 @@ public class CameraActivity extends Activity {
 		.create();
 
 		alertDialog.show();
-	}
-	
-	@Override public boolean onTouchEvent(MotionEvent e){
-		if(e.getAction() == MotionEvent.ACTION_UP){
-			if(cameraView != null){
-				cameraView.takePicture(pictureCallback);
-			}
-		}
-		
-		return super.onTouchEvent(e);
 	}
 }

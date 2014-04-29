@@ -9,10 +9,12 @@ import android.hardware.Camera.PictureCallback;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 class CameraView extends SurfaceView {
-	Camera.Size size = null;
-	private Camera camera = null;
+	Camera.Size size;
+	private Camera camera;
+	private Camera.PictureCallback pictureCallback;
 	
 	public CameraView(Context context) {
 		super(context);
@@ -30,6 +32,13 @@ class CameraView extends SurfaceView {
 	}
 	
 	private void init(){
+		setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				takePicture();
+			}
+		});
+		
 		SurfaceHolder holder = this.getHolder();
 		holder.addCallback(new SurfaceHolder.Callback() {
 
@@ -66,7 +75,27 @@ class CameraView extends SurfaceView {
 
 			@Override
 			public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-				camera.startPreview();
+				if(camera != null){
+					camera.startPreview();
+				}
+				
+				if(size != null){
+					// 按比例缩放摄像
+		            android.view.ViewGroup.LayoutParams lp = getLayoutParams();
+		            lp.width = size.width;
+		            lp.height = size.height;
+		            
+		            if(lp.width > width){
+		            	lp.height = (int) Math.floor((float) lp.height * width / lp.width);
+		            	lp.width = width;
+		            }
+		            if(lp.height > height){
+		            	lp.width = (int) Math.floor((float) lp.width * height / lp.height);
+		            	lp.height = height;
+		            }
+		            
+		            setLayoutParams(lp);
+				}
 			}
 			
 			@Override
@@ -78,7 +107,13 @@ class CameraView extends SurfaceView {
 		});
 	}
 	
-	public void takePicture(PictureCallback jpeg){
-		camera.takePicture(null, null, jpeg);
+	public void setJPEGPictureCallback(PictureCallback jpeg){
+		pictureCallback = jpeg;
+	}
+	
+	public void takePicture(){
+		if(camera != null){
+			camera.takePicture(null, null, pictureCallback);
+		}
 	}
 }
