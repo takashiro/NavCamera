@@ -333,7 +333,7 @@ public class KDTree {
     	while(!nearestNeighbourArgStack.isEmpty()){
     		// Console.WriteLine ("C NearestNeighbourI called");
 
-    		NearestNeighbourArg local = nearestNeighbourArgStack.firstElement();
+    		NearestNeighbourArg local = nearestNeighbourArgStack.peek();
     		switch(local.line){
     		case 0:
 	            local.resDistSq.val = Float.POSITIVE_INFINITY;
@@ -543,12 +543,17 @@ public class KDTree {
         RefInt step = new RefInt();
         dummyDist.val = 0;
         step.val = searchSteps;
-        nearestNeighbourListBBFI(best, q, kp, hr, Integer.MAX_VALUE, dummyDist, searchHr, step);
+        //nearestNeighbourListBBFI(best, q, kp, hr, Integer.MAX_VALUE, dummyDist, searchHr, step);
+        NearestNeighbourListArg arg = new NearestNeighbourListArg(best, q, kp, hr, Integer.MAX_VALUE, dummyDist, searchHr, step);
+        arg.obj = this;
+        nearestNeighbourListArgStack.push(arg);
+        nearestNeighbourListBBFI();
         for (BestEntry be : best)
             be.dist = (float) Math.sqrt(be.distSq);
         return (best);
     }
 
+    /*
     private IKDTreeDomain nearestNeighbourListBBFI(SortedLimitedList<BestEntry> best, int q, IKDTreeDomain target,
                                                    HyperRectangle hr, int maxDistSq, RefInt resDistSq,
                                                    SortedLimitedList<HREntry> searchHr, RefInt searchSteps) {
@@ -635,6 +640,166 @@ public class KDTree {
         resDistSq = distSq;
         return (nearest);
     }
+    */
 
+    private static class NearestNeighbourListArg{
+    	byte line;
+    	
+    	KDTree obj;
+    	
+    	SortedLimitedList<BestEntry> best;
+    	int q;
+    	IKDTreeDomain target;
+        HyperRectangle hr;
+        int maxDistSq;
+        RefInt resDistSq;
+        SortedLimitedList<HREntry> searchHr;
+        RefInt searchSteps;
+        
+        HyperRectangle leftHr;
+        HyperRectangle rightHr;
+        
+        IKDTreeDomain pivot;
+        HyperRectangle nearerHr, furtherHr;
+		KDTree nearerKd, furtherKd;
+		
+		IKDTreeDomain nearest, tempNearest;
+		RefInt distSq;
+		
+		RefInt tempDistSq;
+		
+		public NearestNeighbourListArg(SortedLimitedList<BestEntry> best,
+				int q, IKDTreeDomain target, HyperRectangle hr, int maxDistSq,
+				RefInt resDistSq, SortedLimitedList<HREntry> searchHr,
+				RefInt searchSteps) {
+			this.line = 0;
+			this.best = best;
+			this.q = q;
+			this.target = target;
+			this.hr = hr;
+			this.maxDistSq = maxDistSq;
+			this.resDistSq = resDistSq;
+			this.searchHr = searchHr;
+			this.searchSteps = searchSteps;
+		}
+    }
+    
+    private Stack<NearestNeighbourListArg> nearestNeighbourListArgStack = new Stack<NearestNeighbourListArg>();
+    private Stack<IKDTreeDomain> nearestNeighbourListResultStack = new Stack<IKDTreeDomain>();
+    
+	private void nearestNeighbourListBBFI() {
+		while(!nearestNeighbourListArgStack.isEmpty()){
+			NearestNeighbourListArg local = nearestNeighbourListArgStack.peek();
+				
+			switch(local.line){
+			case 0:
+				local.resDistSq.val = Integer.MAX_VALUE;
+		
+				local.pivot = local.obj.dr;
+				local.best.add(new BestEntry(local.obj.dr, KDTree.distanceSq(local.target, local.obj.dr)));
+		
+				local.leftHr = local.hr;
+				local.rightHr = local.leftHr.splitAt(local.obj.splitDim, local.pivot.descriptor[local.obj.splitDim]);
+			
+				// step 5-7
+				if (local.target.descriptor[local.obj.splitDim] <= local.pivot.descriptor[local.obj.splitDim]) {
+					local.nearerKd = local.obj.left;
+					local.nearerHr = local.leftHr;
+					local.furtherKd = local.obj.right;
+					local.furtherHr = local.rightHr;
+				} else {
+					local.nearerKd = local.obj.right;
+					local.nearerHr = local.rightHr;
+					local.furtherKd = local.obj.left;
+					local.furtherHr = local.leftHr;
+				}
+		
+				// step 8
+				local.nearest = null;
+				local.distSq = new RefInt();
+		
+				local.searchHr.add(new HREntry(local.furtherHr, local.furtherKd, local.pivot, local.furtherHr.distance(local.target)));
+		
+				// No child, bottom reached!
+				if (local.nearerKd == null) {
+					local.distSq.val = Integer.MAX_VALUE;
+				} else {
+					local.line = 1;
+					NearestNeighbourListArg arg = new NearestNeighbourListArg(local.best, local.q, local.target, local.nearerHr, local.maxDistSq, local.distSq, local.searchHr, local.searchSteps);
+					arg.obj = local.nearerKd;
+					nearestNeighbourListArgStack.push(arg);
+					continue;
+				}
+				
+			case 1:
+				if(local.line == 1){
+					local.nearest = nearestNeighbourListResultStack.pop();
+				}
+		
+				// step 9
+				if (local.best.size() >= local.q) {
+					local.maxDistSq = ((BestEntry) local.best.get(local.q - 1)).getDistSq();
+				} else
+					local.maxDistSq = Integer.MAX_VALUE;
+		
+				if (local.searchHr.size() > 0) {
+					HREntry hre = (HREntry) local.searchHr.get(0);
+					local.searchHr.remove(0);
+		
+					local.furtherHr = hre.rect;
+					local.furtherKd = hre.tree;
+					local.pivot = hre.pivot;
+				}
+		
+				// step 10
+				local.searchSteps.val -= 1;
+				if (local.searchSteps.val > 0 && local.furtherHr.isInReach(local.target, (float) Math.sqrt(local.maxDistSq))) {
+					int ptDistSq = KDTree.distanceSq(local.pivot, local.target);
+					if (ptDistSq < local.distSq.val) {
+						// steps 10.1.1 to 10.1.3
+						local.nearest = local.pivot;
+						local.distSq.val = ptDistSq;
+						local.maxDistSq = local.distSq.val;
+					}
+		
+					// step 10.2
+					local.tempDistSq = new RefInt();
+					local.tempNearest = null;
+					if (local.furtherKd == null) {
+						local.tempDistSq.val = Integer.MAX_VALUE;
+					} else {
+						local.line = 2;
+						NearestNeighbourListArg arg = new NearestNeighbourListArg(local.best, local.q,
+								local.target, local.furtherHr, local.maxDistSq, local.tempDistSq, local.searchHr,
+								local.searchSteps);
+						arg.obj = local.furtherKd;
+						nearestNeighbourListArgStack.push(arg);
+						continue;
+					}
+		
+					// step 10.3
+					if (local.tempDistSq.val < local.distSq.val) {
+						local.nearest = local.tempNearest;
+						local.distSq = local.tempDistSq;
+					}
+				}
+				
+			case 2:
+				if(local.line == 2){
+					local.tempNearest = nearestNeighbourListResultStack.pop();
+					
+					// step 10.3
+					if (local.tempDistSq.val < local.distSq.val) {
+						local.nearest = local.tempNearest;
+						local.distSq = local.tempDistSq;
+					}
+				}
+		
+				local.resDistSq = local.distSq;
+				nearestNeighbourListResultStack.push(local.nearest);
+				nearestNeighbourListArgStack.pop();
+			}
+		}
+	}
 }
 
