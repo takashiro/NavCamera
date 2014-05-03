@@ -9,6 +9,7 @@ package com.alibaba.simpleimage.analyze.kdtree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import com.alibaba.simpleimage.analyze.RefFloat;
 import com.alibaba.simpleimage.analyze.RefInt;
@@ -221,11 +222,22 @@ public class KDTree {
     public IKDTreeDomain nearestNeighbour(IKDTreeDomain target, RefFloat ref) {
         HyperRectangle hr = HyperRectangle.createUniverseRectangle(target.dim);
 
-        IKDTreeDomain nearest = nearestNeighbourI(target, hr, Float.POSITIVE_INFINITY, ref);
+        //IKDTreeDomain nearest = nearestNeighbourI(target, hr, Float.POSITIVE_INFINITY, ref);
         // Math.sqrt(ref.val);
-        return (nearest);
+        
+        NearestNeighbourArg arg = new NearestNeighbourArg();
+        arg.target = target;
+        arg.hr = hr;
+        arg.maxDistSq = Float.POSITIVE_INFINITY;
+        arg.resDistSq = ref;
+        
+        nearestNeighbourArgStack.push(arg);
+        nearestNeighbourI();
+        
+        return (nearestNeighbourResultStack.pop());
     }
 
+    /*
     private IKDTreeDomain nearestNeighbourI(IKDTreeDomain target, HyperRectangle hr, float maxDistSq, RefFloat resDistSq) {
         // Console.WriteLine ("C NearestNeighbourI called");
 
@@ -294,7 +306,137 @@ public class KDTree {
         resDistSq = distSq;
         return (nearest);
     }
+	*/
+    
+    private static class NearestNeighbourArg{
+    	byte line;
+    	
+    	KDTree obj;
+    	IKDTreeDomain target;
+    	HyperRectangle hr;
+    	float maxDistSq;
+    	RefFloat resDistSq;
+    	IKDTreeDomain nearest;
+    	IKDTreeDomain pivot;
+    	RefFloat distSq;
+    	HyperRectangle leftHr, rightHr;
+    	HyperRectangle nearerHr, furtherHr;
+    	KDTree nearerKd, furtherKd;
+    	RefFloat tempDistSq;
+    	IKDTreeDomain tempNearest;
+    }
+    
+    private static Stack<NearestNeighbourArg> nearestNeighbourArgStack = new Stack<NearestNeighbourArg>();
+    private static Stack<IKDTreeDomain> nearestNeighbourResultStack = new Stack<IKDTreeDomain>();
+    
+    private static void nearestNeighbourI(){
+    	while(!nearestNeighbourArgStack.isEmpty()){
+    		// Console.WriteLine ("C NearestNeighbourI called");
 
+    		NearestNeighbourArg local = nearestNeighbourArgStack.firstElement();
+    		switch(local.line){
+    		case 0:
+	            local.resDistSq.val = Float.POSITIVE_INFINITY;
+	
+	            local.pivot = local.obj.dr;
+	
+	            local.leftHr = local.hr;
+	            local.rightHr = local.leftHr.splitAt(local.obj.splitDim, local.pivot.descriptor[local.obj.splitDim]);
+
+	            // step 5-7
+	            if (local.target.descriptor[local.obj.splitDim] <= local.pivot.descriptor[local.obj.splitDim]) {
+	                local.nearerKd = local.obj.left;
+	                local.nearerHr = local.leftHr;
+	                local.furtherKd = local.obj.right;
+	                local.furtherHr = local.rightHr;
+	            } else {
+	                local.nearerKd = local.obj.right;
+	                local.nearerHr = local.rightHr;
+	                local.furtherKd = local.obj.left;
+	                local.furtherHr = local.leftHr;
+	            }
+	
+	            // step 8
+	            local.nearest = null;
+	
+	            local.distSq = new RefFloat();
+	            if (local.nearerKd == null) {
+	                local.distSq.val = Float.POSITIVE_INFINITY;
+	            } else {
+	            	local.line = 1;
+	            	
+	            	NearestNeighbourArg arg = new NearestNeighbourArg();
+	            	arg.target = local.target;
+	            	arg.hr = local.nearerHr;
+	            	arg.maxDistSq = local.maxDistSq;
+	            	arg.resDistSq = local.distSq;
+	            	arg.obj = local.nearerKd;
+	            	
+	                nearestNeighbourArgStack.push(arg);
+	                continue;
+	            }
+	            
+    		case 1:
+    			if(local.line == 1){
+    				local.nearest = nearestNeighbourResultStack.pop();
+    			}
+	            // step 9
+	            local.maxDistSq = (float) Math.min(local.maxDistSq, local.distSq.val);
+	
+	            // step 10
+	            if (local.furtherHr.isInReach(local.target, (float) Math.sqrt(local.maxDistSq))) {
+	                float ptDistSq = KDTree.distanceSq(local.pivot, local.target);
+	                if (ptDistSq < local.distSq.val) {
+	                    // steps 10.1.1 to 10.1.3
+	                    local.nearest = local.pivot;
+	                    local.distSq.val = ptDistSq;
+	                    local.maxDistSq = local.distSq.val;
+	                }
+	
+	                // step 10.2
+	                local.tempDistSq = new RefFloat();
+	                local.tempNearest = null;
+	                if (local.furtherKd == null) {
+	                	local.tempDistSq.val = Float.POSITIVE_INFINITY;
+	                } else {
+	                	local.line = 2;
+	                	
+	                	NearestNeighbourArg arg = new NearestNeighbourArg();
+		            	arg.target = local.target;
+		            	arg.hr = local.furtherHr;
+		            	arg.maxDistSq = local.maxDistSq;
+		            	arg.resDistSq = local.tempDistSq;
+		            	arg.obj = local.furtherKd;
+		            	
+		                nearestNeighbourArgStack.push(arg);
+		                continue;
+	                }
+	
+	                // step 10.3
+	                if (local.tempDistSq.val < local.distSq.val) {
+	                    local.nearest = local.tempNearest;
+	                    local.distSq = local.tempDistSq;
+	                }
+	            }
+	            
+    		case 2:
+    			if(local.line == 2){
+    				local.tempNearest = nearestNeighbourResultStack.pop();
+    				
+    				// step 10.3
+	                if (local.tempDistSq.val < local.distSq.val) {
+	                    local.nearest = local.tempNearest;
+	                    local.distSq = local.tempDistSq;
+	                }
+    			}
+	
+	            local.resDistSq = local.distSq;
+	            nearestNeighbourResultStack.push(local.nearest);
+	            nearestNeighbourArgStack.pop();
+    		}
+    	}
+    }
+    
     /**
      * @param al
      * @return
