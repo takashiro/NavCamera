@@ -12,6 +12,7 @@ import com.alibaba.simpleimage.analyze.sift.scale.KDFeaturePoint;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.util.Log;
 
 public class HotspotManager {
 	
@@ -32,7 +33,7 @@ public class HotspotManager {
 		}
 		
 		String targetHotspot = null;
-		int maxMatchedKeyNum = 3;
+		int maxMatchedKeyNum = 12;
 		File[] hotspotDirs = storage.listFiles();
 		for(int i = 0; i < hotspotDirs.length; i++){
 			File dir = hotspotDirs[i];
@@ -48,6 +49,8 @@ public class HotspotManager {
 			
 		    List<Match> ms = MatchKeys.findMatchesBBF(spotFP, snapshotKDTree);
 		    
+		    Log.i("match", dir.getName() + ":" + ms.size());
+		    
 		    //TODO 此处可能需要修改，来判断图片是否匹配
 		    if(ms.size() > maxMatchedKeyNum){
 		    	maxMatchedKeyNum = ms.size();
@@ -60,7 +63,7 @@ public class HotspotManager {
 
 	public static List<KDFeaturePoint> getKDFeaturePoint(Bitmap bitmap){
 		RenderImage img = new RenderImage(bitmap);
-		img.scaleWithin(100);
+		img.scaleWithin(200);
 		SIFT sift = new SIFT();
 		sift.detectFeatures(img.toPixelFloatArray(null));
 		return sift.getGlobalKDFeaturePoints();
